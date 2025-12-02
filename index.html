@@ -2,195 +2,227 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8" />
-<title>نظام إنشاء صفحة شخصية – ذكي</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>منشئ الصفحة الشخصية</title>
 <style>
-    body { font-family: Arial; margin: 0; padding: 0; background:#f5f5f5; }
-    header { background:#002b5c; color:white; padding:15px; text-align:center; }
-    .container { max-width:900px; margin:20px auto; background:white; padding:20px;
-                 border-radius:12px; box-shadow:0 0 10px #ccc; }
-
-    h2 { color:#002b5c; }
-
-    input, textarea { width:100%; padding:10px; margin:6px 0;
-                      border:1px solid #ccc; border-radius:6px; }
-
-    button {
-        padding:10px 20px; background:#002b5c; color:white; border:0;
-        border-radius:6px; cursor:pointer; margin-top:10px;
+    body{
+        font-family: "Tahoma", sans-serif;
+        background: #f4f4f7;
+        margin:0;
+        padding:0;
     }
-    button:hover { background:#004a9f; }
 
-    #preview {
-        margin-top:30px; padding:20px; border-radius:12px;
-        background:#fff; box-shadow:0 0 10px #ccc;
+    header{
+        background:#003366;
+        color:white;
+        padding:15px 25px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+    }
+
+    header img{
+        height:60px;
+    }
+
+    header h1{
+        margin:0;
+        font-size:22px;
+    }
+
+    .container{
+        max-width:850px;
+        margin:40px auto;
+        background:white;
+        padding:25px;
+        border-radius:15px;
+        box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    label{
+        font-weight:bold;
+        margin-top:10px;
+        display:block;
+    }
+
+    input, textarea{
+        width:100%;
+        padding:10px;
+        margin-top:5px;
+        border-radius:8px;
+        border:1px solid #ccc;
+    }
+
+    textarea{
+        height:120px;
     }
 
     .lang-buttons button{
-        background:#444;
-        margin-left:5px;
+        padding:8px 14px;
+        margin:4px;
+        border:none;
+        border-radius:6px;
+        background:#003366;
+        color:white;
+        cursor:pointer;
     }
+
+    .generate-btn{
+        background:#008CBA;
+        color:white;
+        padding:12px 20px;
+        border:none;
+        width:100%;
+        margin-top:20px;
+        font-size:18px;
+        border-radius:10px;
+        cursor:pointer;
+    }
+
+    .download-btn{
+        background:#28a745;
+        color:white;
+        padding:12px 20px;
+        border:none;
+        width:100%;
+        margin-top:20px;
+        font-size:18px;
+        border-radius:10px;
+        cursor:pointer;
+    }
+
+    .preview-box{
+        margin-top:25px;
+        padding:20px;
+        background:#eef2f7;
+        border-radius:10px;
+        text-align:center;
+        font-size:18px;
+        font-weight:bold;
+    }
+
 </style>
 </head>
 
 <body>
 
 <header>
-    <h1>🔧 لوحة إنشاء الصفحة الشخصية</h1>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/IHF_logo.svg/2560px-IHF_logo.svg.png">
+    <h1>منشئ الصفحة الشخصية</h1>
 </header>
 
 <div class="container">
 
-<h2>البيانات الأساسية</h2>
+    <label>الاسم</label>
+    <input id="name">
 
-<label>الاسم</label>
-<input id="name">
+    <label>المنصب / المسمى</label>
+    <input id="title">
 
-<label>المنصب</label>
-<input id="title">
+    <label>نبذة تعريفية</label>
+    <textarea id="bio"></textarea>
 
-<label>نبذة تعريفية</label>
-<textarea id="bio" rows="4"></textarea>
+    <label>الإنجازات</label>
+    <textarea id="achievements"></textarea>
 
-<label>الإنجازات</label>
-<textarea id="achievements" rows="5"></textarea>
+    <label>صورة شخصية (رابط)</label>
+    <input id="photo">
 
-<label>ارفع الصورة الشخصية</label>
-<input type="file" id="photo" accept="image/*">
+    <label>شعار شخصي (اختياري)</label>
+    <input id="logo">
 
-<label>ارفع شعار الاتحاد</label>
-<input type="file" id="logo" accept="image/*">
+    <label>السيرة الذاتية (File URL)</label>
+    <input id="cv">
 
-<label>السيرة الذاتية (PDF اختياري)</label>
-<input type="file" id="cv" accept="application/pdf">
+    <br><br>
+    <h3>تغيير اللغة في الصفحة الناتجة:</h3>
+    <div class="lang-buttons">
+        <button onclick="setLang('ar')">عربي</button>
+        <button onclick="setLang('en')">English</button>
+        <button onclick="setLang('fr')">Français</button>
+        <button onclick="setLang('es')">Español</button>
+        <button onclick="setLang('de')">Deutsch</button>
+    </div>
 
-<br><br>
-<button onclick="generatePage()">توليد الصفحة الشخصية</button>
+    <button class="generate-btn" onclick="generatePage()">إنشاء الصفحة الشخصية</button>
 
-<hr>
-
-<h2>🎨 معاينة الصفحة</h2>
-<div id="preview"></div>
+    <div id="preview" class="preview-box"></div>
 
 </div>
 
 <script>
-let languages = {
-    ar: { dir:"rtl", name:"الاسم", title:"المنصب", bio:"نبذة", achievements:"الإنجازات" },
-    en: { dir:"ltr", name:"Name", title:"Position", bio:"Bio", achievements:"Achievements" },
-    fr: { dir:"ltr", name:"Nom", title:"Poste", bio:"Biographie", achievements:"Réalisations" },
-    es: { dir:"ltr", name:"Nombre", title:"Cargo", bio:"Biografía", achievements:"Logros" },
-    de: { dir:"ltr", name:"Name", title:"Position", bio:"Biografie", achievements:"Erfolge" },
-};
-
 let currentLang = "ar";
 
-function base64(file){
-    return new Promise((ok)=>{
-        let r = new FileReader();
-        r.onload = ()=>ok(r.result);
-        r.readAsDataURL(file);
-    });
+const languages = {
+    ar:{name:"الاسم", title:"المنصب", bio:"نبذة", achievements:"الإنجازات"},
+    en:{name:"Name", title:"Title", bio:"Bio", achievements:"Achievements"},
+    fr:{name:"Nom", title:"Poste", bio:"Biographie", achievements:"Réalisations"},
+    es:{name:"Nombre", title:"Cargo", bio:"Biografía", achievements:"Logros"},
+    de:{name:"Name", title:"Position", bio:"Biografie", achievements:"Erfolge"},
+};
+
+function setLang(lang){
+    currentLang = lang;
+    alert("✔️ سيتم تطبيق اللغة عند توليد الصفحة");
 }
 
-async function generatePage(){
+function generatePage(){
     let name = document.getElementById("name").value;
     let title = document.getElementById("title").value;
     let bio = document.getElementById("bio").value;
     let achievements = document.getElementById("achievements").value;
-
-    let photoFile = document.getElementById("photo").files[0];
-    let logoFile  = document.getElementById("logo").files[0];
-    let cvFile    = document.getElementById("cv").files[0];
-
-    let photo = photoFile ? await base64(photoFile) : "";
-    let logo  = logoFile  ? await base64(logoFile)  : "";
-    let cv    = cvFile    ? await base64(cvFile)    : "";
+    let photo = document.getElementById("photo").value;
+    let logo = document.getElementById("logo").value;
+    let cv = document.getElementById("cv").value;
 
     let html = `
 <!DOCTYPE html>
-<html lang="${currentLang}" dir="${languages[currentLang].dir}">
+<html lang="${currentLang}">
 <head>
-<meta charset="UTF-8"/>
+<meta charset="UTF-8">
 <title>${name}</title>
 <style>
-    body { font-family:Arial; background:#f7f7f7; margin:0; padding:0; }
-    .header { display:flex; justify-content:space-between; align-items:center;
-              background:#002b5c; color:white; padding:20px; }
-    .header img { height:70px; }
-    .content { max-width:900px; margin:30px auto; background:white; padding:25px;
-               border-radius:12px; box-shadow:0 0 10px #ccc; }
-    h1 { color:#002b5c; }
-    .photo { text-align:center; margin-top:20px; }
-    .photo img { width:200px; height:200px; border-radius:50%; object-fit:cover; }
-    .langs button {
-        margin:5px; padding:8px 15px; border:0; background:#444; color:white;
-        border-radius:6px; cursor:pointer;
-    }
+    body{ font-family:Arial; background:#f4f4f7; padding:20px; text-align:center; }
+    .box{ background:white; padding:30px; max-width:800px; margin:auto; border-radius:20px;
+          box-shadow:0 4px 20px rgba(0,0,0,0.15); }
+    img.photo{ width:150px; border-radius:50%; margin:20px; }
+    img.logo{ width:110px; position:absolute; top:20px; left:20px; }
 </style>
-
-<script>
-function setLang(l){
-    window.location.search = "lang="+l;
-}
-</script>
-
 </head>
 <body>
 
-<div class="header">
-    <h2>${name}</h2>
-    ${logo ? `<img src="${logo}">` : ""}
+${logo ? `<img class="logo" src="${logo}">` : ""}
+
+<div class="box">
+    ${photo ? `<img class="photo" src="${photo}">` : ""}
+    <h1>${name}</h1>
+    <h3>${title}</h3>
+
+    <h2>${languages[currentLang].bio}</h2>
+    <p>${bio}</p>
+
+    <h2>${languages[currentLang].achievements}</h2>
+    <p>${achievements.replace(/\n/g,"<br>")}</p>
+
+    ${cv ? `<a href="${cv}" download style="font-size:20px;">📄 Download CV</a>` : ""}
 </div>
 
-<div class="langs" style="text-align:center; margin-top:15px;">
-    <button onclick="setLang('ar')">عربي</button>
-    <button onclick="setLang('en')">English</button>
-    <button onclick="setLang('fr')">Français</button>
-    <button onclick="setLang('es')">Español</button>
-    <button onclick="setLang('de')">Deutsch</button>
-</div>
-
-<div class="content">
-
-<div class="photo">
-${photo ? `<img src="${photo}">` : ""}
-</div>
-
-<h1>${languages[currentLang].name}: ${name}</h1>
-<h3>${languages[currentLang].title}: ${title}</h3>
-
-<h2>${languages[currentLang].bio}</h2>
-<p>${bio}</p>
-
-<h2>${languages[currentLang].achievements}</h2>
-<p>${achievements.replace(/\n/g,"<br>")}</p>
-
-${cv ? `<a href="${cv}" download="cv.pdf">📄 تحميل السيرة الذاتية</a>` : ""}
-
-</div>
 </body>
 </html>
-    `;
+`;
 
-    document.getElementById("preview").innerText = "✔ تم توليد الصفحة — اضغط زر التحميل أدناه";
-
-    // حفظ آخر صفحة
     localStorage.setItem("generated_page", html);
 
-    // إضافة زر التحميل
     document.getElementById("preview").innerHTML = `
-        <p><b>✔ الصفحة جاهزة</b></p>
-        <button onclick="downloadFinal()">تحميل الصفحة النهائية</button>
+        ✔ تم إنشاء الصفحة — اضغط لتنزيلها  
+        <br><br>
+        <button class="download-btn" onclick="downloadFinal()">تنزيل الصفحة</button>
     `;
-
 }
 
 function downloadFinal(){
     let html = localStorage.getItem("generated_page");
     let blob = new Blob([html], {type:"text/html"});
     let url = URL.createObjectURL(blob);
-
     let a = document.createElement("a");
     a.href = url;
     a.download = "profile_page.html";
