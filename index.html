@@ -3,170 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>علي محمد عيسى اسحاقي - رئيس الاتحاد البحريني لكرة اليد</title>
+<title>الملف الشخصي للرئيس</title>
 <style>
-body {
-    margin: 0;
-    font-family: 'Tahoma', sans-serif;
-    background: #f5f6fa;
-}
-.container {
-    max-width: 900px;
-    margin: 40px auto;
-    background: #fff;
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: 0 4px 25px rgba(0,0,0,0.1);
-}
-.header {
-    text-align: center;
-}
-.profile-img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid #0077ff;
-}
-.logo {
-    width: 80px;
-    margin-top: 15px;
-}
-h1 { margin: 10px 0 5px; }
-h3 { color: #555; margin-top: 0; }
-.section { margin-top: 30px; }
-.section h2 {
-    font-size: 22px;
-    border-right: 4px solid #0077ff;
-    padding-right: 10px;
-}
-.info-box {
-    background: #f2f4ff;
-    padding: 15px;
-    border-radius: 12px;
-    margin-top: 10px;
-}
-.info-box ul { margin: 0; padding-right: 20px; }
-.language-switcher {
-    margin-top: 20px;
-    text-align: center;
-}
-.language-switcher button {
-    margin: 0 5px;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 10px;
-    background: #0077ff;
-    color: #fff;
-    cursor: pointer;
-}
-.language-switcher button:hover { background: #005fcc; }
-footer {
-    margin-top: 40px;
-    text-align: center;
-    color: #777;
-    font-size: 14px;
-}
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css');
+
+body { font-family: 'Tahoma', sans-serif; background:#f9f9f9; margin:0; padding:0; }
+header { background:#c8102e; color:white; padding:30px 20px; text-align:center; }
+header img.profile-img { width:160px; height:160px; border-radius:50%; border:4px solid white; object-fit:cover; }
+header img.logo { width:80px; margin-top:15px; }
+header h1 { margin:10px 0 5px; font-size:28px; }
+header h3 { margin:0; font-weight:normal; font-size:18px; }
+
+.container { max-width:900px; margin:20px auto; padding:0 20px; }
+.section { margin-top:30px; }
+.section h2 { font-size:22px; border-right:5px solid #c8102e; padding-right:10px; margin-bottom:10px; }
+.info-box { background:#fff0f1; padding:15px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.05); transition:transform 0.2s; }
+.info-box:hover { transform: translateY(-3px); }
+.info-box ul { margin:0; padding-right:20px; }
+.cv-link a { display:inline-block; padding:10px 15px; background:#c8102e; color:white; text-decoration:none; border-radius:10px; margin-top:10px; }
+.cv-link a:hover { background:#a50b24; }
+.language-switcher { text-align:center; margin-top:20px; }
+.language-switcher button { margin:0 5px; padding:8px 15px; border:none; border-radius:10px; background:#c8102e; color:#fff; cursor:pointer; font-weight:bold; }
+.language-switcher button:hover { background:#a50b24; }
+.contact { margin-top:20px; display:flex; justify-content:center; gap:20px; flex-wrap:wrap; }
+.contact a { color:#c8102e; font-size:18px; text-decoration:none; transition:color 0.2s; }
+.contact a:hover { color:#a50b24; }
+footer { text-align:center; color:#777; margin-top:40px; font-size:14px; padding:20px 0; border-top:1px solid #ddd; }
 </style>
 </head>
 <body>
+
+<header>
+<img class="profile-img" id="profileHeader" src="" alt="الصورة الشخصية">
+<h1 id="nameHeader">اسم الرئيس</h1>
+<h3>رئيس الاتحاد البحريني لكرة اليد</h3>
+<img class="logo" id="logoHeader" src="" alt="شعار الاتحاد">
+</header>
+
 <div class="container">
-    <div class="header">
-        <img class="profile-img" src="profile.jpg" alt="الصورة الشخصية">
-        <h1>علي محمد عيسى اسحاقي</h1>
-        <h3>رئيس الاتحاد البحريني لكرة اليد</h3>
-        <img class="logo" src="logo.png" alt="شعار الاتحاد">
-    </div>
+<div class="language-switcher">
+<button onclick="setLang('ar')">العربية</button>
+<button onclick="setLang('en')">English</button>
+<button onclick="setLang('fr')">Français</button>
+<button onclick="setLang('de')">Deutsch</button>
+<button onclick="setLang('es')">Español</button>
+</div>
 
-    <div class="language-switcher">
-        <button onclick="setLang('ar')">العربية</button>
-        <button onclick="setLang('en')">English</button>
-        <button onclick="setLang('fr')">Français</button>
-        <button onclick="setLang('de')">Deutsch</button>
-        <button onclick="setLang('es')">Español</button>
-    </div>
+<div class="section" id="bio">
+<h2>نبذة تعريفية</h2>
+<div class="info-box" id="bioBox">نبذة تعريفية افتراضية.</div>
+</div>
 
-    <div class="section" id="bio">
-        <h2>نبذة تعريفية</h2>
-        <div class="info-box">
-            <p>شخصية قيادية بخبرة طويلة في تطوير كرة اليد في مملكة البحرين، قاد الاتحاد لتحقيق العديد من الإنجازات المحلية والدولية ورفع مستوى الاحترافية في اللعبة.</p>
-        </div>
-    </div>
+<div class="section" id="experience">
+<h2>الخبرات</h2>
+<div class="info-box"><ul id="expList"><li>16 سنة رئيس الاتحاد البحريني لكرة اليد</li></ul></div>
+</div>
 
-    <div class="section" id="experience">
-        <h2>الخبرات</h2>
-        <div class="info-box">
-            <ul>
-                <li>16 سنة رئيس الاتحاد البحريني لكرة اليد</li>
-                <li>الإشراف على المنتخبات الوطنية بكافة الفئات</li>
-                <li>تمثيل البحرين في الاجتماعات الدولية</li>
-                <li>تطوير الاستراتيجيات الفنية والإدارية للعبة</li>
-            </ul>
-        </div>
-    </div>
+<div class="section" id="achievements">
+<h2>الإنجازات</h2>
+<div class="info-box"><ul id="achList"><li>تأسيس أكاديمية الاتحاد لتطوير اللاعبين الشباب</li></ul></div>
+</div>
 
-    <div class="section" id="achievements">
-        <h2>الإنجازات</h2>
-        <div class="info-box">
-            <ul>
-                <li>تأسيس أكاديمية الاتحاد لتطوير اللاعبين الشباب</li>
-                <li>تحقيق المنتخب الوطني ميداليات ذهبية عدة</li>
-                <li>تنظيم بطولات محلية ودولية ناجحة</li>
-            </ul>
-        </div>
-    </div>
+<div class="section cv-link">
+<a id="cvLink" href="#" download="CV.pdf">تحميل ملف السيرة الذاتية (CV)</a>
+</div>
 
-    <footer>
-        © 2025 – الملف التعريفي الرسمي
-    </footer>
+<div class="section contact">
+<a id="emailLink" href="mailto:example@email.com"><i class="fas fa-envelope"></i> البريد الإلكتروني</a>
+<a id="phoneLink" href="tel:0000-0000"><i class="fas fa-phone"></i> الهاتف</a>
+</div>
+
+<footer>© 2025 – الملف التعريفي الرسمي للاتحاد البحريني لكرة اليد</footer>
+</div>
+
+<div class="container" style="margin-top:50px;">
+<h2>تعبئة البيانات لتوليد الصفحة</h2>
+<form id="profileForm" style="display:flex; flex-direction:column; gap:10px;">
+<input type="text" id="name" placeholder="اسم الرئيس" required>
+<textarea id="bioInput" placeholder="نبذة تعريفية" rows="3"></textarea>
+<textarea id="experienceInput" placeholder="الخبرات (سطر بسطر)" rows="3"></textarea>
+<textarea id="achievementsInput" placeholder="الإنجازات (سطر بسطر)" rows="3"></textarea>
+<input type="text" id="emailInput" placeholder="example@email.com">
+<input type="text" id="phoneInput" placeholder="0000-0000">
+<label>رفع الصورة الشخصية</label><input type="file" id="profileImg" accept="image/*">
+<label>رفع شعار الاتحاد</label><input type="file" id="logoImg" accept="image/*">
+<label>رفع ملف CV</label><input type="file" id="cvFile" accept=".pdf">
+<button type="button" onclick="updateProfile()">تحديث الصفحة</button>
+<button type="button" onclick="downloadPage()">تحميل HTML النهائي</button>
+</form>
 </div>
 
 <script>
-// نصوص متعددة اللغات افتراضية
-const texts = {
-    en: {
-        bio: "A seasoned leader in Bahraini handball, having led the federation to multiple local and international achievements while enhancing professionalism in the sport.",
-        experience: ["16 years as President of the Bahraini Handball Federation","Supervision of national teams of all levels","Representing Bahrain in international meetings","Developing technical and administrative strategies"],
-        achievements: ["Founded the Federation Academy for young player development","National team won several gold medals","Organized successful local and international tournaments"]
-    },
-    fr: {
-        bio: "Leader expérimenté du handball bahreïni, ayant conduit la fédération à plusieurs réalisations locales et internationales tout en améliorant le professionnalisme dans le sport.",
-        experience: ["16 ans président de la Fédération de Handball bahreïnie","Supervision des équipes nationales de tous niveaux","Représentation du Bahreïn lors de réunions internationales","Développement de stratégies techniques et administratives"],
-        achievements: ["Création de l'Académie de la Fédération pour le développement des jeunes joueurs","L'équipe nationale a remporté plusieurs médailles d'or","Organisation de tournois locaux et internationaux réussis"]
-    },
-    de: {
-        bio: "Erfahrener Leiter im bahrainischen Handball, der den Verband zu mehreren lokalen und internationalen Erfolgen geführt und die Professionalität im Sport gesteigert hat.",
-        experience: ["16 Jahre Präsident des Bahrainischen Handballverbandes","Überwachung der Nationalteams aller Ebenen","Vertretung Bahrains bei internationalen Treffen","Entwicklung technischer und administrativer Strategien"],
-        achievements: ["Gründung der Verbandsakademie zur Förderung junger Spieler","Nationalteam gewann mehrere Goldmedaillen","Organisation erfolgreicher lokaler und internationaler Turniere"]
-    },
-    es: {
-        bio: "Líder experimentado en balonmano de Baréin, que ha llevado a la federación a múltiples logros locales e internacionales mientras mejora el profesionalismo en el deporte.",
-        experience: ["16 años como presidente de la Federación de Balonmano de Baréin","Supervisión de equipos nacionales de todos los niveles","Representación de Baréin en reuniones internacionales","Desarrollo de estrategias técnicas y administrativas"],
-        achievements: ["Fundó la Academia de la Federación para el desarrollo de jóvenes jugadores","El equipo nacional ganó varias medallas de oro","Organizó torneos locales e internacionales exitosos"]
-    },
-    ar: {
-        bio: "شخصية قيادية بخبرة طويلة في تطوير كرة اليد في مملكة البحرين، قاد الاتحاد لتحقيق العديد من الإنجازات المحلية والدولية ورفع مستوى الاحترافية في اللعبة.",
-        experience: ["16 سنة رئيس الاتحاد البحريني لكرة اليد","الإشراف على المنتخبات الوطنية بكافة الفئات","تمثيل البحرين في الاجتماعات الدولية","تطوير الاستراتيجيات الفنية والإدارية للعبة"],
-        achievements: ["تأسيس أكاديمية الاتحاد لتطوير اللاعبين الشباب","تحقيق المنتخب الوطني ميداليات ذهبية عدة","تنظيم بطولات محلية ودولية ناجحة"]
-    }
-};
+let lastHTML="";
 
-function setLang(lang){
-    document.querySelector("#bio .info-box p").textContent = texts[lang].bio;
-    let expList = document.querySelector("#experience .info-box ul");
-    let achList = document.querySelector("#achievements .info-box ul");
-    expList.innerHTML = "";
-    achList.innerHTML = "";
-    texts[lang].experience.forEach(item => {
-        let li = document.createElement("li");
-        li.textContent = item;
-        expList.appendChild(li);
-    });
-    texts[lang].achievements.forEach(item => {
-        let li = document.createElement("li");
-        li.textContent = item;
-        achList.appendChild(li);
-    });
+function fileToBase64(file,callback){
+    if(!file){callback(''); return;}
+    const reader=new FileReader();
+    reader.onload=()=>callback(reader.result);
+    reader.readAsDataURL(file);
+}
+
+function updateProfile(){
+    const name=document.getElementById('name').value||"اسم الرئيس";
+    const bio=document.getElementById('bioInput').value||"نبذة تعريفية افتراضية.";
+    const experience=document.getElementById('experienceInput').value.split('\n').filter(x=>x);
+    const achievements=document.getElementById('achievementsInput').value.split('\n').filter(x=>x);
+    const email=document.getElementById('emailInput').value||"example@email.com";
+    const phone=document.getElementById('phoneInput').value||"0000-0000";
+    const profileFile=document.getElementById('profileImg').files[0];
+    const logoFile=document.getElementById('logoImg').files[0];
+    const cvFile=document.getElementById('cvFile').files[0];
+
+    fileToBase64(profileFile,profileBase64=>{
+    fileToBase64(logoFile,logoBase64=>{
+    fileToBase64(cvFile,cvBase64=>{
+        document.getElementById('profileHeader').src=profileBase64;
+        document.getElementById('logoHeader').src=logoBase64;
+        document.getElementById('nameHeader').textContent=name;
+        document.getElementById('bioBox').textContent=bio;
+        const expList=document.getElementById('expList');
+        expList.innerHTML=""; experience.forEach(e=>{let li=document.createElement('li'); li.textContent=e; expList.appendChild(li); });
+        const achList=document.getElementById('achList');
+        achList.innerHTML=""; achievements.forEach(a=>{let li=document.createElement('li'); li.textContent=a; achList.appendChild(li); });
+        document.getElementById('emailLink').href="mailto:"+email;
+        document.getElementById('phoneLink').href="tel:"+phone;
+        document.getElementById('cvLink').href=cvBase64;
+        generateFinalHTML(name,bio,experience,achievements,email,phone,profileBase64,logoBase64,cvBase64);
+    })})})
+}
+
+function generateFinalHTML(name,bio,experience,achievements,email,phone,profile,logo,cv){
+    let html=`<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${name}</title><style>
+body{font-family:'Tahoma',sans-serif;background:#f9f9f9;margin:0;padding:0;}header{background:#c8102e;color:white;padding:30px 20px;text-align:center;}header img.profile-img{width:160px;height:160px;border-radius:50%;border:4px solid white;object-fit:cover;}header img.logo{width:80px;margin-top:15px;}header h1{margin:10px 0 5px;font-size:28px;}header h3{margin:0;font-weight:normal;font-size:18px;} .container{max-width:900px;margin:20px auto;padding:0 20px;} .section{margin-top:30px;} .section h2{font-size:22px;border-right:5px solid #c8102e;padding-right:10px;margin-bottom:10px;} .info-box{background:#fff0f1;padding:15px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.05);} .info-box ul{margin:0;padding-right:20px;} .cv-link a{display:inline-block;padding:10px 15px;background:#c8102e;color:white;text-decoration:none;border-radius:10px;margin-top:10px;} .cv-link a:hover{background:#a50b24;} .contact{margin-top:20px;display:flex;justify-content:center;gap:20px;flex-wrap:wrap;} .contact a{color:#c8102e;font-size:18px;text-decoration:none;transition:color 0.2s;} .contact a:hover{color:#a50b24;} footer{text-align:center;color:#777;margin-top:40px;font-size:14px;padding:20px 0;border-top:1px solid #ddd;} </style></head><body>
+<header><img class="profile-img" src="${profile}"><h1>${name}</h1><h3>رئيس الاتحاد البحريني لكرة اليد</h3><img class="logo" src="${logo}"></header>
+<div class="container">
+<div class="section"><h2>نبذة تعريفية</h2><div class="info-box">${bio}</div></div>
+<div class="section"><h2>الخبرات</h2><div class="info-box"><ul>${experience.map(e=>'<li>'+e+'</li>').join('')}</ul></div></div>
+<div class="section"><h2>الإنجازات</h2><div class="info-box"><ul>${achievements.map(a=>'<li>'+a+'</li>').join('')}</ul></div></div>
+<div class="section cv-link"><a href="${cv}" download="${name}_CV.pdf">تحميل ملف السيرة الذاتية (CV)</a></div>
+<div class="section contact"><a href="mailto:${email}"><i class="fas fa-envelope"></i> البريد الإلكتروني</a><a href="tel:${phone}"><i class="fas fa-phone"></i> الهاتف</a></div>
+<footer>© 2025 – الملف التعريفي الرسمي للاتحاد البحريني لكرة اليد</footer>
+</div></body></html>`;
+    lastHTML=html;
+}
+
+function downloadPage(){
+    if(!lastHTML){ alert("يجب تحديث الصفحة أولاً"); return; }
+    const blob=new Blob([lastHTML],{type:"text/html"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download="profile_page.html";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 }
 </script>
 </body>
