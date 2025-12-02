@@ -3,157 +3,126 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>الملف الشخصي للرئيس</title>
+<title>مولّد الصفحة الشخصية</title>
 <style>
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css');
-
-body { font-family: 'Tahoma', sans-serif; background:#f9f9f9; margin:0; padding:0; }
-header { background:#c8102e; color:white; padding:30px 20px; text-align:center; }
-header img.profile-img { width:160px; height:160px; border-radius:50%; border:4px solid white; object-fit:cover; }
-header img.logo { width:80px; margin-top:15px; }
-header h1 { margin:10px 0 5px; font-size:28px; }
-header h3 { margin:0; font-weight:normal; font-size:18px; }
-
-.container { max-width:900px; margin:20px auto; padding:0 20px; }
-.section { margin-top:30px; }
-.section h2 { font-size:22px; border-right:5px solid #c8102e; padding-right:10px; margin-bottom:10px; }
-.info-box { background:#fff0f1; padding:15px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.05); transition:transform 0.2s; }
-.info-box:hover { transform: translateY(-3px); }
-.info-box ul { margin:0; padding-right:20px; }
-.cv-link a { display:inline-block; padding:10px 15px; background:#c8102e; color:white; text-decoration:none; border-radius:10px; margin-top:10px; }
-.cv-link a:hover { background:#a50b24; }
-.language-switcher { text-align:center; margin-top:20px; }
-.language-switcher button { margin:0 5px; padding:8px 15px; border:none; border-radius:10px; background:#c8102e; color:#fff; cursor:pointer; font-weight:bold; }
-.language-switcher button:hover { background:#a50b24; }
-.contact { margin-top:20px; display:flex; justify-content:center; gap:20px; flex-wrap:wrap; }
-.contact a { color:#c8102e; font-size:18px; text-decoration:none; transition:color 0.2s; }
-.contact a:hover { color:#a50b24; }
-footer { text-align:center; color:#777; margin-top:40px; font-size:14px; padding:20px 0; border-top:1px solid #ddd; }
+body { font-family: 'Tahoma', sans-serif; background:#f9f9f9; margin:0; padding:20px; }
+h1,h2,h3 { margin:5px 0; }
+.container { max-width:900px; margin:auto; background:#fff; padding:20px 30px; border-radius:15px; box-shadow:0 4px 20px rgba(0,0,0,0.1); }
+form { display:flex; flex-direction:column; gap:10px; }
+input,textarea,button { padding:10px; border-radius:8px; border:1px solid #ccc; }
+button { background:#c8102e; color:#fff; font-weight:bold; border:none; cursor:pointer; }
+button:hover { background:#a50b24; }
+.preview { margin-top:20px; }
+iframe { width:100%; height:700px; border:1px solid #ccc; border-radius:12px; }
 </style>
 </head>
 <body>
-
-<header>
-<img class="profile-img" id="profileHeader" src="" alt="الصورة الشخصية">
-<h1 id="nameHeader">اسم الرئيس</h1>
-<h3>رئيس الاتحاد البحريني لكرة اليد</h3>
-<img class="logo" id="logoHeader" src="" alt="شعار الاتحاد">
-</header>
-
 <div class="container">
-<div class="language-switcher">
-<button onclick="setLang('ar')">العربية</button>
-<button onclick="setLang('en')">English</button>
-<button onclick="setLang('fr')">Français</button>
-<button onclick="setLang('de')">Deutsch</button>
-<button onclick="setLang('es')">Español</button>
-</div>
-
-<div class="section" id="bio">
-<h2>نبذة تعريفية</h2>
-<div class="info-box" id="bioBox">نبذة تعريفية افتراضية.</div>
-</div>
-
-<div class="section" id="experience">
-<h2>الخبرات</h2>
-<div class="info-box"><ul id="expList"><li>16 سنة رئيس الاتحاد البحريني لكرة اليد</li></ul></div>
-</div>
-
-<div class="section" id="achievements">
-<h2>الإنجازات</h2>
-<div class="info-box"><ul id="achList"><li>تأسيس أكاديمية الاتحاد لتطوير اللاعبين الشباب</li></ul></div>
-</div>
-
-<div class="section cv-link">
-<a id="cvLink" href="#" download="CV.pdf">تحميل ملف السيرة الذاتية (CV)</a>
-</div>
-
-<div class="section contact">
-<a id="emailLink" href="mailto:example@email.com"><i class="fas fa-envelope"></i> البريد الإلكتروني</a>
-<a id="phoneLink" href="tel:0000-0000"><i class="fas fa-phone"></i> الهاتف</a>
-</div>
-
-<footer>© 2025 – الملف التعريفي الرسمي للاتحاد البحريني لكرة اليد</footer>
-</div>
-
-<div class="container" style="margin-top:50px;">
-<h2>تعبئة البيانات لتوليد الصفحة</h2>
-<form id="profileForm" style="display:flex; flex-direction:column; gap:10px;">
+<h1>مولّد الصفحة الشخصية</h1>
+<form id="profileForm">
 <input type="text" id="name" placeholder="اسم الرئيس" required>
-<textarea id="bioInput" placeholder="نبذة تعريفية" rows="3"></textarea>
-<textarea id="experienceInput" placeholder="الخبرات (سطر بسطر)" rows="3"></textarea>
-<textarea id="achievementsInput" placeholder="الإنجازات (سطر بسطر)" rows="3"></textarea>
-<input type="text" id="emailInput" placeholder="example@email.com">
-<input type="text" id="phoneInput" placeholder="0000-0000">
+<textarea id="bio" placeholder="نبذة تعريفية" rows="3"></textarea>
+<textarea id="experience" placeholder="الخبرات (سطر بسطر)" rows="3"></textarea>
+<textarea id="achievements" placeholder="الإنجازات (سطر بسطر)" rows="3"></textarea>
+<input type="text" id="email" placeholder="example@email.com">
+<input type="text" id="phone" placeholder="0000-0000">
 <label>رفع الصورة الشخصية</label><input type="file" id="profileImg" accept="image/*">
 <label>رفع شعار الاتحاد</label><input type="file" id="logoImg" accept="image/*">
 <label>رفع ملف CV</label><input type="file" id="cvFile" accept=".pdf">
-<button type="button" onclick="updateProfile()">تحديث الصفحة</button>
-<button type="button" onclick="downloadPage()">تحميل HTML النهائي</button>
+<button type="button" onclick="generatePage()">توليد الصفحة</button>
 </form>
+
+<div class="preview">
+<h2>معاينة الصفحة</h2>
+<iframe id="previewFrame"></iframe>
+<button onclick="downloadPage()">تحميل HTML النهائي</button>
+</div>
 </div>
 
 <script>
 let lastHTML="";
 
-function fileToBase64(file,callback){
+function fileToBase64(file, callback){
     if(!file){callback(''); return;}
-    const reader=new FileReader();
-    reader.onload=()=>callback(reader.result);
+    const reader = new FileReader();
+    reader.onload = ()=>callback(reader.result);
     reader.readAsDataURL(file);
 }
 
-function updateProfile(){
-    const name=document.getElementById('name').value||"اسم الرئيس";
-    const bio=document.getElementById('bioInput').value||"نبذة تعريفية افتراضية.";
-    const experience=document.getElementById('experienceInput').value.split('\n').filter(x=>x);
-    const achievements=document.getElementById('achievementsInput').value.split('\n').filter(x=>x);
-    const email=document.getElementById('emailInput').value||"example@email.com";
-    const phone=document.getElementById('phoneInput').value||"0000-0000";
-    const profileFile=document.getElementById('profileImg').files[0];
-    const logoFile=document.getElementById('logoImg').files[0];
-    const cvFile=document.getElementById('cvFile').files[0];
+function generatePage(){
+    const name = document.getElementById('name').value || "اسم الرئيس";
+    const bio = document.getElementById('bio').value || "نبذة تعريفية افتراضية.";
+    const experience = document.getElementById('experience').value.split('\n').filter(x=>x);
+    const achievements = document.getElementById('achievements').value.split('\n').filter(x=>x);
+    const email = document.getElementById('email').value || "example@email.com";
+    const phone = document.getElementById('phone').value || "0000-0000";
 
-    fileToBase64(profileFile,profileBase64=>{
-    fileToBase64(logoFile,logoBase64=>{
-    fileToBase64(cvFile,cvBase64=>{
-        document.getElementById('profileHeader').src=profileBase64;
-        document.getElementById('logoHeader').src=logoBase64;
-        document.getElementById('nameHeader').textContent=name;
-        document.getElementById('bioBox').textContent=bio;
-        const expList=document.getElementById('expList');
-        expList.innerHTML=""; experience.forEach(e=>{let li=document.createElement('li'); li.textContent=e; expList.appendChild(li); });
-        const achList=document.getElementById('achList');
-        achList.innerHTML=""; achievements.forEach(a=>{let li=document.createElement('li'); li.textContent=a; achList.appendChild(li); });
-        document.getElementById('emailLink').href="mailto:"+email;
-        document.getElementById('phoneLink').href="tel:"+phone;
-        document.getElementById('cvLink').href=cvBase64;
-        generateFinalHTML(name,bio,experience,achievements,email,phone,profileBase64,logoBase64,cvBase64);
-    })})})
-}
+    const profileFile = document.getElementById('profileImg').files[0];
+    const logoFile = document.getElementById('logoImg').files[0];
+    const cvFile = document.getElementById('cvFile').files[0];
 
-function generateFinalHTML(name,bio,experience,achievements,email,phone,profile,logo,cv){
-    let html=`<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${name}</title><style>
-body{font-family:'Tahoma',sans-serif;background:#f9f9f9;margin:0;padding:0;}header{background:#c8102e;color:white;padding:30px 20px;text-align:center;}header img.profile-img{width:160px;height:160px;border-radius:50%;border:4px solid white;object-fit:cover;}header img.logo{width:80px;margin-top:15px;}header h1{margin:10px 0 5px;font-size:28px;}header h3{margin:0;font-weight:normal;font-size:18px;} .container{max-width:900px;margin:20px auto;padding:0 20px;} .section{margin-top:30px;} .section h2{font-size:22px;border-right:5px solid #c8102e;padding-right:10px;margin-bottom:10px;} .info-box{background:#fff0f1;padding:15px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.05);} .info-box ul{margin:0;padding-right:20px;} .cv-link a{display:inline-block;padding:10px 15px;background:#c8102e;color:white;text-decoration:none;border-radius:10px;margin-top:10px;} .cv-link a:hover{background:#a50b24;} .contact{margin-top:20px;display:flex;justify-content:center;gap:20px;flex-wrap:wrap;} .contact a{color:#c8102e;font-size:18px;text-decoration:none;transition:color 0.2s;} .contact a:hover{color:#a50b24;} footer{text-align:center;color:#777;margin-top:40px;font-size:14px;padding:20px 0;border-top:1px solid #ddd;} </style></head><body>
-<header><img class="profile-img" src="${profile}"><h1>${name}</h1><h3>رئيس الاتحاد البحريني لكرة اليد</h3><img class="logo" src="${logo}"></header>
+    fileToBase64(profileFile, profileBase64=>{
+    fileToBase64(logoFile, logoBase64=>{
+    fileToBase64(cvFile, cvBase64=>{
+        const html=`<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${name}</title>
+<style>
+body{font-family:'Tahoma',sans-serif;background:#f9f9f9;margin:0;padding:20px;}
+header{background:#c8102e;color:white;padding:30px;text-align:center;}
+header img.profile-img{width:160px;height:160px;border-radius:50%;border:4px solid white;object-fit:cover;}
+header img.logo{width:80px;margin-top:15px;}
+header h1{margin:10px 0;font-size:28px;}
+header h3{margin:0;font-weight:normal;font-size:18px;}
+.container{max-width:900px;margin:20px auto;padding:0 20px;}
+.section{margin-top:30px;}
+.section h2{font-size:22px;border-right:5px solid #c8102e;padding-right:10px;margin-bottom:10px;}
+.info-box{background:#fff0f1;padding:15px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.05);}
+.info-box ul{margin:0;padding-right:20px;}
+.cv-link a{display:inline-block;padding:10px 15px;background:#c8102e;color:white;text-decoration:none;border-radius:10px;margin-top:10px;}
+.cv-link a:hover{background:#a50b24;}
+.contact{margin-top:20px;display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
+.contact a{color:#c8102e;font-size:18px;text-decoration:none;transition:color 0.2s;}
+.contact a:hover{color:#a50b24;}
+footer{text-align:center;color:#777;margin-top:40px;font-size:14px;padding:20px 0;border-top:1px solid #ddd;}
+</style>
+</head>
+<body>
+<header>
+<img class="profile-img" src="${profileBase64}" alt="الصورة الشخصية">
+<h1>${name}</h1>
+<h3>رئيس الاتحاد البحريني لكرة اليد</h3>
+<img class="logo" src="${logoBase64}" alt="شعار الاتحاد">
+</header>
 <div class="container">
 <div class="section"><h2>نبذة تعريفية</h2><div class="info-box">${bio}</div></div>
 <div class="section"><h2>الخبرات</h2><div class="info-box"><ul>${experience.map(e=>'<li>'+e+'</li>').join('')}</ul></div></div>
 <div class="section"><h2>الإنجازات</h2><div class="info-box"><ul>${achievements.map(a=>'<li>'+a+'</li>').join('')}</ul></div></div>
-<div class="section cv-link"><a href="${cv}" download="${name}_CV.pdf">تحميل ملف السيرة الذاتية (CV)</a></div>
-<div class="section contact"><a href="mailto:${email}"><i class="fas fa-envelope"></i> البريد الإلكتروني</a><a href="tel:${phone}"><i class="fas fa-phone"></i> الهاتف</a></div>
+<div class="section cv-link"><a href="${cvBase64}" download="${name}_CV.pdf">تحميل ملف السيرة الذاتية (CV)</a></div>
+<div class="section contact">
+<a href="mailto:${email}"><i class="fas fa-envelope"></i> البريد الإلكتروني</a>
+<a href="tel:${phone}"><i class="fas fa-phone"></i> الهاتف</a>
+</div>
 <footer>© 2025 – الملف التعريفي الرسمي للاتحاد البحريني لكرة اليد</footer>
-</div></body></html>`;
-    lastHTML=html;
+</div>
+</body>
+</html>`;
+        lastHTML = html;
+        document.getElementById('previewFrame').srcdoc = html;
+    })})});
 }
 
 function downloadPage(){
-    if(!lastHTML){ alert("يجب تحديث الصفحة أولاً"); return; }
-    const blob=new Blob([lastHTML],{type:"text/html"});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');
-    a.href=url;
-    a.download="profile_page.html";
+    if(!lastHTML){ alert("يجب توليد الصفحة أولاً"); return; }
+    const blob = new Blob([lastHTML], {type:"text/html"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = "profile_page.html";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
