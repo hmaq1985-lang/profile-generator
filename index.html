@@ -1,421 +1,203 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>مولّد الصفحة الشخصية المتعدد اللغات (Generator)</title>
+<meta charset="UTF-8" />
+<title>نظام إنشاء صفحة شخصية – ذكي</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-  :root{
-    --brand:#c8102e; /* لون الاتحاد (ثابت) */
-    --bg:#f3f5f7;
-    --card:#ffffff;
-    --muted:#666;
-  }
-  body{font-family:Inter, "Segoe UI", Tahoma, sans-serif; background:var(--bg); margin:0; padding:20px;}
-  .wrap{max-width:1100px;margin:18px auto;padding:22px;background:var(--card);border-radius:14px;box-shadow:0 8px 30px rgba(12,20,30,0.08);}
-  h1{text-align:center;color:var(--brand);margin:0 0 14px;}
-  .lang-tabs{display:flex;gap:8px;justify-content:center;margin-bottom:16px;flex-wrap:wrap;}
-  .lang-tabs button{background:#eee;border:0;padding:8px 12px;border-radius:8px;cursor:pointer;}
-  .lang-tabs button.active{background:var(--brand);color:#fff;}
-  form{display:grid;grid-template-columns:1fr;gap:10px;}
-  .row{display:flex;gap:12px;flex-wrap:wrap;}
-  label{font-weight:600;color:var(--muted);font-size:13px;}
-  input[type="text"], textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;font-size:14px}
-  textarea{min-height:70px;resize:vertical}
-  .files{display:flex;gap:12px;flex-wrap:wrap}
-  .controls{display:flex;gap:10px;justify-content:center;margin-top:12px}
-  button.primary{background:var(--brand);color:#fff;border:0;padding:10px 16px;border-radius:10px;cursor:pointer;font-weight:700}
-  button.ghost{background:#fff;border:1px solid #ddd;padding:10px 14px;border-radius:10px;cursor:pointer}
-  .note{color:var(--muted);font-size:13px;text-align:center;margin-top:6px}
-  .section-title{font-weight:700;margin-top:10px;color:#222}
-  /* responsive */
-  @media(min-width:900px){
-    form{grid-template-columns:1fr 420px;gap:20px}
-    .right-col{position:sticky;top:24px;height:max-content}
-  }
-  /* preview small hint */
-  .preview-hint{font-size:13px;color:var(--muted);text-align:center;margin-top:8px}
+    body { font-family: Arial; margin: 0; padding: 0; background:#f5f5f5; }
+    header { background:#002b5c; color:white; padding:15px; text-align:center; }
+    .container { max-width:900px; margin:20px auto; background:white; padding:20px;
+                 border-radius:12px; box-shadow:0 0 10px #ccc; }
+
+    h2 { color:#002b5c; }
+
+    input, textarea { width:100%; padding:10px; margin:6px 0;
+                      border:1px solid #ccc; border-radius:6px; }
+
+    button {
+        padding:10px 20px; background:#002b5c; color:white; border:0;
+        border-radius:6px; cursor:pointer; margin-top:10px;
+    }
+    button:hover { background:#004a9f; }
+
+    #preview {
+        margin-top:30px; padding:20px; border-radius:12px;
+        background:#fff; box-shadow:0 0 10px #ccc;
+    }
+
+    .lang-buttons button{
+        background:#444;
+        margin-left:5px;
+    }
 </style>
 </head>
+
 <body>
-<div class="wrap">
-  <h1>مولّد الصفحة الشخصية — متعدد اللغات</h1>
 
-  <div class="lang-tabs" id="tabs">
-    <button class="active" data-lang="ar">العربية (AR)</button>
-    <button data-lang="en">English (EN)</button>
-    <button data-lang="fr">Français (FR)</button>
-    <button data-lang="es">Español (ES)</button>
-    <button data-lang="de">Deutsch (DE)</button>
-  </div>
-
-  <form id="generatorForm" autocomplete="off" onsubmit="return false;">
-    <!-- LEFT: inputs for languages -->
-    <div>
-      <div class="section-title">معلومات عامة</div>
-      <div class="row">
-        <label style="width:100%;">البريد الإلكتروني</label>
-        <input id="email" type="text" placeholder="example@email.com">
-        <label style="width:100%;">الهاتف</label>
-        <input id="phone" type="text" placeholder="+973 0000 0000">
-      </div>
-
-      <div class="section-title">الحقول النصية (املأ لكل لغة).</div>
-
-      <!-- For each language we provide grouped inputs; shown/hidden depending on active tab -->
-      <div id="langInputs">
-
-        <!-- Arabic block -->
-        <div class="lang-block" data-lang="ar">
-          <label>الاسم (العربية)</label>
-          <input type="text" id="name_ar" value="علي محمد عيسى اسحاقي">
-          <label>النبذة (العربية)</label>
-          <textarea id="bio_ar">رئيس الاتحاد البحريني لكرة اليد. نبذة تعريفية افتراضية باللغة العربية.</textarea>
-          <label>الخبرات (سطر بسطر)</label>
-          <textarea id="exp_ar">16 سنة رئيس الاتحاد البحريني لكرة اليد
-تنظيم بطولات محلية ودولية</textarea>
-          <label>الإنجازات (سطر بسطر)</label>
-          <textarea id="ach_ar">تأسيس أكاديمية كرة اليد
-حصد ميداليات في بطولات إقليمية</textarea>
-        </div>
-
-        <!-- English block -->
-        <div class="lang-block" data-lang="en" style="display:none">
-          <label>Name (English)</label>
-          <input type="text" id="name_en" value="Ali Mohammed Isa Ishaqi">
-          <label>Bio (English)</label>
-          <textarea id="bio_en">President of the Bahraini Handball Federation. Sample bio in English.</textarea>
-          <label>Experience (one per line)</label>
-          <textarea id="exp_en">16 years as President of the Bahraini Handball Federation
-Organized local & international tournaments</textarea>
-          <label>Achievements (one per line)</label>
-          <textarea id="ach_en">Founded Handball Academy
-Won regional medals</textarea>
-        </div>
-
-        <!-- French -->
-        <div class="lang-block" data-lang="fr" style="display:none">
-          <label>Nom (Français)</label>
-          <input type="text" id="name_fr" value="Ali Mohammed Isa Ishaqi">
-          <label>Biographie (Français)</label>
-          <textarea id="bio_fr">Président de la Fédération bahreïnienne de handball. Biographie en français.</textarea>
-          <label>Expérience</label>
-          <textarea id="exp_fr">16 ans président de la Fédération bahreïnienne de handball
-Organisation de tournois locaux et internationaux</textarea>
-          <label>Réalisations</label>
-          <textarea id="ach_fr">Création de l'Académie de Handball
-Médailles régionales</textarea>
-        </div>
-
-        <!-- Spanish -->
-        <div class="lang-block" data-lang="es" style="display:none">
-          <label>Nombre (Español)</label>
-          <input type="text" id="name_es" value="Ali Mohammed Isa Ishaqi">
-          <label>Biografía (Español)</label>
-          <textarea id="bio_es">Presidente de la Federación Bahreiní de Balonmano. Biografía en español.</textarea>
-          <label>Experiencia</label>
-          <textarea id="exp_es">16 años como presidente de la Federación de Balonmano de Baréin
-Organizó torneos locales e internacionales</textarea>
-          <label>Logros</label>
-          <textarea id="ach_es">Fundó la Academia de Balonmano
-Medallas regionales</textarea>
-        </div>
-
-        <!-- German -->
-        <div class="lang-block" data-lang="de" style="display:none">
-          <label>Name (Deutsch)</label>
-          <input type="text" id="name_de" value="Ali Mohammed Isa Ishaqi">
-          <label>Biografie (Deutsch)</label>
-          <textarea id="bio_de">Präsident des Bahrainischen Handballverbandes. Biografie auf Deutsch.</textarea>
-          <label>Erfahrungen</label>
-          <textarea id="exp_de">16 Jahre Präsident des Bahrainischen Handballverbandes
-Organisation von Turnieren</textarea>
-          <label>Erfolge</label>
-          <textarea id="ach_de">Gründung der Handball-Akademie
-Regionale Medaillen</textarea>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- RIGHT column: files + actions -->
-    <div class="right-col" style="padding-left:0;">
-      <div class="section-title">الملفات والصور</div>
-      <div class="files">
-        <div style="min-width:100%">
-          <label>الشعار (logo) — سيظهر أعلى يسار الصفحة</label>
-          <input type="file" id="logoFile" accept="image/*">
-        </div>
-        <div style="min-width:100%">
-          <label>الصورة الشخصية</label>
-          <input type="file" id="profileFile" accept="image/*">
-        </div>
-        <div style="min-width:100%">
-          <label>السيرة الذاتية (PDF)</label>
-          <input type="file" id="cvFile" accept="application/pdf">
-        </div>
-      </div>
-
-      <div style="margin-top:18px">
-        <div class="controls">
-          <button class="primary" id="generateBtn" type="button">توليد الصفحة الشخصية</button>
-          <button class="ghost" id="downloadBtn" type="button" title="انشاء وتحميل HTML">توليد & تنزيل</button>
-        </div>
-        <div class="note">بعد الضغط، سيفتح ملف HTML النهائي في نافذة جديدة وسيكون جاهزًا للتحميل والرفع على GitHub Pages.</div>
-        <div class="preview-hint">نصيحة: اضغط "توليد الصفحة الشخصية" للاطلاع على النتيجة في نافذة جديدة.</div>
-      </div>
-    </div>
-  </form>
-</div>
-
-<script>
-/* ---------- language tabs behavior ---------- */
-const tabs = document.querySelectorAll('.lang-tabs button');
-const langBlocks = document.querySelectorAll('.lang-block');
-let activeLang = 'ar';
-tabs.forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    tabs.forEach(t=>t.classList.remove('active'));
-    btn.classList.add('active');
-    activeLang = btn.dataset.lang;
-    langBlocks.forEach(b=> b.style.display = (b.dataset.lang===activeLang)?'block':'none');
-    // adjust direction of form textarea preview (optional)
-  });
-});
-
-/* ---------- helpers for files -> base64 ---------- */
-function toBase64(file){
-  return new Promise((resolve,reject)=>{
-    if(!file){ resolve(''); return; }
-    const reader = new FileReader();
-    reader.onload = ()=> resolve(reader.result);
-    reader.onerror = ()=> reject('فشل قراءة الملف: '+file.name);
-    reader.readAsDataURL(file);
-  });
-}
-
-/* ---------- collect multilingual values ---------- */
-function collectMultilang(){
-  const langs = ['ar','en','fr','es','de'];
-  const obj = {};
-  langs.forEach(l => {
-    obj[l] = {
-      name: (document.getElementById('name_'+l) ? document.getElementById('name_'+l).value : ''),
-      bio: (document.getElementById('bio_'+l) ? document.getElementById('bio_'+l).value : ''),
-      experience: (document.getElementById('exp_'+l) ? document.getElementById('exp_'+l).value.split('\n').filter(x=>x.trim()) : []),
-      achievements: (document.getElementById('ach_'+l) ? document.getElementById('ach_'+l).value.split('\n').filter(x=>x.trim()) : [])
-    };
-  });
-  return obj;
-}
-
-/* ---------- build final HTML (string) ---------- */
-function buildFinalHTML(dataObj, assets, contact, defaultLang){
-  // assets: {logo, profile, cv} base64 strings (or empty)
-  // contact: {email, phone}
-  // dataObj: per-language content
-  // defaultLang: code
-  // We'll embed a small script in final HTML that switches language content on the fly.
-  const translationsJSON = JSON.stringify(dataObj).replace(/<\/script>/g,'<\\/script>'); // safe embed
-  const contactJSON = JSON.stringify(contact);
-  const defaultDir = (defaultLang==='ar') ? 'rtl' : 'ltr';
-
-  const html = `<!doctype html>
-<html lang="${defaultLang}" dir="${defaultDir}">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>${escapeHtml(dataObj[defaultLang].name || 'Profile')}</title>
-<style>
-:root{--brand: #c8102e; --bg:#f5f7f9; --card:#fff; --muted:#666;}
-body{font-family:Inter, "Segoe UI", Tahoma, sans-serif;background:var(--bg);margin:0;padding:0;}
-.header{display:flex;align-items:center;gap:16px;background:var(--brand);color:#fff;padding:16px 20px;}
-.header .logo{height:64px;object-fit:contain;}
-.header .title{flex:1;text-align:center;font-size:20px;font-weight:700}
-.container{max-width:1000px;margin:22px auto;padding:26px;background:var(--card);border-radius:14px;box-shadow:0 12px 40px rgba(7,12,20,0.08);}
-.top{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;}
-.profile-pic{width:160px;height:160px;border-radius:12px;object-fit:cover;border:4px solid var(--brand);}
-.info{flex:1;min-width:240px;}
-.hname{font-size:22px;color:#111;margin:0 0 6px}
-.hrole{color:var(--muted);margin:0 0 12px}
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
-@media(max-width:860px){.cards{grid-template-columns:1fr}}
-.card{background:#fff;border-radius:10px;padding:16px;border:1px solid #f0f0f0}
-.card h3{margin:0 0 8px;color:var(--brand);font-size:16px}
-.langs{margin-top:12px;text-align:center}
-.langs button{margin:0 6px;padding:6px 10px;border-radius:8px;border:none;background:var(--brand);color:#fff;cursor:pointer}
-.contact{margin-top:10px;color:var(--muted)}
-.cv-actions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
-.cv-actions a{background:var(--brand);color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none}
-</style>
-</head>
-<body>
-<header class="header">
-<img src="${assets.logo || ''}" class="logo" alt="logo">
-<div class="title">${escapeHtml(dataObj[defaultLang].name || '')}</div>
+<header>
+    <h1>🔧 لوحة إنشاء الصفحة الشخصية</h1>
 </header>
 
-<main class="container">
-<div class="top">
-  <img id="pf" src="${assets.profile || ''}" class="profile-pic" alt="profile">
-  <div class="info">
-    <h2 class="hname" id="nameEl">${escapeHtml(dataObj[defaultLang].name || '')}</h2>
-    <div class="hrole">رئيس الاتحاد البحريني لكرة اليد</div>
-    <div id="bioEl">${escapeHtml(dataObj[defaultLang].bio || '')}</div>
-    <div class="contact" id="contactEl"></div>
-    <div class="cv-actions">
-      ${assets.cv ? `<a id="viewPdf" href="${assets.cv}" target="_blank">عرض السيرة (PDF)</a>
-      <a id="downloadPdf" href="${assets.cv}" download="${sanitizeFileName(dataObj[defaultLang].name||'CV')}_CV.pdf">تحميل السيرة</a>` : ''}
-      <a id="downloadHtml" href="#" onclick="downloadHTML();return false;">تحميل HTML</a>
-    </div>
-  </div>
-</div>
+<div class="container">
 
-<div class="cards">
-  <div class="card">
-    <h3 id="t1">نبذة</h3>
-    <div id="bioCard">${escapeHtml(dataObj[defaultLang].bio || '')}</div>
-  </div>
-  <div class="card">
-    <h3 id="t2">الخبرات</h3>
-    <ul id="expCard">${(dataObj[defaultLang].experience||[]).map(i=>`<li>${escapeHtml(i)}</li>`).join('')}</ul>
-  </div>
-  <div class="card">
-    <h3 id="t3">الإنجازات</h3>
-    <ul id="achCard">${(dataObj[defaultLang].achievements||[]).map(i=>`<li>${escapeHtml(i)}</li>`).join('')}</ul>
-  </div>
-  <div class="card">
-    <h3 id="t4">معلومات التواصل</h3>
-    <div id="contactCard"></div>
-  </div>
-</div>
+<h2>البيانات الأساسية</h2>
 
-<div class="langs" style="margin-top:18px;">
-  <button onclick="setLang('ar')">AR</button>
-  <button onclick="setLang('en')">EN</button>
-  <button onclick="setLang('fr')">FR</button>
-  <button onclick="setLang('es')">ES</button>
-  <button onclick="setLang('de')">DE</button>
-</div>
+<label>الاسم</label>
+<input id="name">
 
-</main>
+<label>المنصب</label>
+<input id="title">
+
+<label>نبذة تعريفية</label>
+<textarea id="bio" rows="4"></textarea>
+
+<label>الإنجازات</label>
+<textarea id="achievements" rows="5"></textarea>
+
+<label>ارفع الصورة الشخصية</label>
+<input type="file" id="photo" accept="image/*">
+
+<label>ارفع شعار الاتحاد</label>
+<input type="file" id="logo" accept="image/*">
+
+<label>السيرة الذاتية (PDF اختياري)</label>
+<input type="file" id="cv" accept="application/pdf">
+
+<br><br>
+<button onclick="generatePage()">توليد الصفحة الشخصية</button>
+
+<hr>
+
+<h2>🎨 معاينة الصفحة</h2>
+<div id="preview"></div>
+
+</div>
 
 <script>
-/* embedded data */
-const DATA = ${translationsJSON};
-const CONTACT = ${contactJSON};
-let CUR = "${defaultLang}";
+let languages = {
+    ar: { dir:"rtl", name:"الاسم", title:"المنصب", bio:"نبذة", achievements:"الإنجازات" },
+    en: { dir:"ltr", name:"Name", title:"Position", bio:"Bio", achievements:"Achievements" },
+    fr: { dir:"ltr", name:"Nom", title:"Poste", bio:"Biographie", achievements:"Réalisations" },
+    es: { dir:"ltr", name:"Nombre", title:"Cargo", bio:"Biografía", achievements:"Logros" },
+    de: { dir:"ltr", name:"Name", title:"Position", bio:"Biografie", achievements:"Erfolge" },
+};
 
-function setLang(lang){
-  CUR = lang;
-  document.documentElement.lang = lang;
-  document.documentElement.dir = (lang==='ar') ? 'rtl' : 'ltr';
-  // replace content
-  const d = DATA[lang] || DATA['ar'];
-  document.getElementById('nameEl').textContent = d.name || '';
-  document.getElementById('bioEl').textContent = d.bio || '';
-  document.getElementById('bioCard').textContent = d.bio || '';
-  // lists
-  const expCard = document.getElementById('expCard'); expCard.innerHTML = '';
-  (d.experience||[]).forEach(it=>{ const li=document.createElement('li'); li.textContent=it; expCard.appendChild(li)});
-  const achCard = document.getElementById('achCard'); achCard.innerHTML = '';
-  (d.achievements||[]).forEach(it=>{ const li=document.createElement('li'); li.textContent=it; achCard.appendChild(li)});
-  // contact
-  const contactStr = CONTACT.email ? ('Email: ' + CONTACT.email + ' | Phone: ' + CONTACT.phone) : CONTACT.phone || '';
-  document.getElementById('contactEl').textContent = contactStr;
-  document.getElementById('contactCard').textContent = contactStr;
-  // update download filename
-  const dl = document.getElementById('downloadPdf');
-  if(dl) dl.download = (d.name || 'CV') + '_CV.pdf';
+let currentLang = "ar";
+
+function base64(file){
+    return new Promise((ok)=>{
+        let r = new FileReader();
+        r.onload = ()=>ok(r.result);
+        r.readAsDataURL(file);
+    });
 }
 
-/* download current HTML from this page */
-function downloadHTML(){
-  const html = '<!doctype html>\\n' + document.documentElement.outerHTML;
-  const blob = new Blob([html], {type:'text/html'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = (DATA[CUR].name || 'profile') + '.html';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
+async function generatePage(){
+    let name = document.getElementById("name").value;
+    let title = document.getElementById("title").value;
+    let bio = document.getElementById("bio").value;
+    let achievements = document.getElementById("achievements").value;
 
-// initialize
-setLang(CUR);
-</script>
-</body>
-</html>`;
+    let photoFile = document.getElementById("photo").files[0];
+    let logoFile  = document.getElementById("logo").files[0];
+    let cvFile    = document.getElementById("cv").files[0];
 
-  return html;
-}
+    let photo = photoFile ? await base64(photoFile) : "";
+    let logo  = logoFile  ? await base64(logoFile)  : "";
+    let cv    = cvFile    ? await base64(cvFile)    : "";
 
-/* ---------- utilities ---------- */
-function escapeHtml(s){
-  if(!s) return '';
-  return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; });
-}
-function sanitizeFileName(s){ return (s||'file').replace(/[^a-z0-9_\-\.]/gi,'_'); }
-
-/* ---------- main actions: generate / open (preview) / download ---------- */
-const genBtn = document.getElementById('generateBtn');
-const downBtn = document.getElementById('downloadBtn');
-
-async function collectAllAndBuild(openPreview = true){
-  try{
-    // collect multilingual text
-    const dataObj = collectMultilang();
-    // contact
-    const contact = { email: document.getElementById('email').value || '', phone: document.getElementById('phone').value || '' };
-    // files -> base64
-    const logoFile = document.getElementById('logoFile').files[0];
-    const profileFile = document.getElementById('profileFile').files[0];
-    const cvFile = document.getElementById('cvFile').files[0];
-
-    const [logo, profile, cv] = await Promise.all([toBase64(logoFile), toBase64(profileFile), toBase64(cvFile)]);
-
-    const assets = { logo: logo || '', profile: profile || '', cv: cv || '' };
-
-    const finalHTML = buildFinalHTML(dataObj, assets, contact, activeLang || 'ar');
-
-    // open preview
-    if(openPreview){
-      const w = window.open();
-      w.document.write(finalHTML);
-      w.document.close();
+    let html = `
+<!DOCTYPE html>
+<html lang="${currentLang}" dir="${languages[currentLang].dir}">
+<head>
+<meta charset="UTF-8"/>
+<title>${name}</title>
+<style>
+    body { font-family:Arial; background:#f7f7f7; margin:0; padding:0; }
+    .header { display:flex; justify-content:space-between; align-items:center;
+              background:#002b5c; color:white; padding:20px; }
+    .header img { height:70px; }
+    .content { max-width:900px; margin:30px auto; background:white; padding:25px;
+               border-radius:12px; box-shadow:0 0 10px #ccc; }
+    h1 { color:#002b5c; }
+    .photo { text-align:center; margin-top:20px; }
+    .photo img { width:200px; height:200px; border-radius:50%; object-fit:cover; }
+    .langs button {
+        margin:5px; padding:8px 15px; border:0; background:#444; color:white;
+        border-radius:6px; cursor:pointer;
     }
-    return finalHTML;
-  }catch(err){
-    alert('حدث خطأ: '+ err);
-    throw err;
-  }
+</style>
+
+<script>
+function setLang(l){
+    window.location.search = "lang="+l;
+}
+</script>
+
+</head>
+<body>
+
+<div class="header">
+    <h2>${name}</h2>
+    ${logo ? `<img src="${logo}">` : ""}
+</div>
+
+<div class="langs" style="text-align:center; margin-top:15px;">
+    <button onclick="setLang('ar')">عربي</button>
+    <button onclick="setLang('en')">English</button>
+    <button onclick="setLang('fr')">Français</button>
+    <button onclick="setLang('es')">Español</button>
+    <button onclick="setLang('de')">Deutsch</button>
+</div>
+
+<div class="content">
+
+<div class="photo">
+${photo ? `<img src="${photo}">` : ""}
+</div>
+
+<h1>${languages[currentLang].name}: ${name}</h1>
+<h3>${languages[currentLang].title}: ${title}</h3>
+
+<h2>${languages[currentLang].bio}</h2>
+<p>${bio}</p>
+
+<h2>${languages[currentLang].achievements}</h2>
+<p>${achievements.replace(/\n/g,"<br>")}</p>
+
+${cv ? `<a href="${cv}" download="cv.pdf">📄 تحميل السيرة الذاتية</a>` : ""}
+
+</div>
+</body>
+</html>
+    `;
+
+    document.getElementById("preview").innerText = "✔ تم توليد الصفحة — اضغط زر التحميل أدناه";
+
+    // حفظ آخر صفحة
+    localStorage.setItem("generated_page", html);
+
+    // إضافة زر التحميل
+    document.getElementById("preview").innerHTML = `
+        <p><b>✔ الصفحة جاهزة</b></p>
+        <button onclick="downloadFinal()">تحميل الصفحة النهائية</button>
+    `;
+
 }
 
-genBtn.addEventListener('click', async ()=> {
-  genBtn.disabled = true;
-  genBtn.textContent = 'جاري التوليد...';
-  try{
-    await collectAllAndBuild(true);
-  }finally{
-    genBtn.disabled = false;
-    genBtn.textContent = 'توليد الصفحة الشخصية';
-  }
-});
+function downloadFinal(){
+    let html = localStorage.getItem("generated_page");
+    let blob = new Blob([html], {type:"text/html"});
+    let url = URL.createObjectURL(blob);
 
-downBtn.addEventListener('click', async ()=>{
-  downBtn.disabled = true;
-  downBtn.textContent = 'جاري الإنشاء...';
-  try{
-    const html = await collectAllAndBuild(false);
-    const blob = new Blob([html], {type:'text/html'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = 'profile_page.html';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    let a = document.createElement("a");
+    a.href = url;
+    a.download = "profile_page.html";
+    a.click();
     URL.revokeObjectURL(url);
-  }catch(e){}
-  finally{ downBtn.disabled = false; downBtn.textContent = 'توليد & تنزيل'; }
-});
-
+}
 </script>
+
 </body>
 </html>
