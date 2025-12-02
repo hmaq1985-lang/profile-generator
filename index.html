@@ -45,6 +45,7 @@ iframe { width:100%; height:700px; border:1px solid #ccc; border-radius:12px; }
 
 <script>
 let lastHTML="";
+
 const translations = {
   ar: {bio:"نبذة تعريفية افتراضية.", experience:["16 سنة رئيس الاتحاد البحريني لكرة اليد."], achievements:["تأسيس أكاديمية كرة اليد","تنظيم بطولات محلية ودولية"]},
   en: {bio:"Default profile bio.", experience:["16 years president of Bahrain Handball Federation."], achievements:["Founded Handball Academy","Organized local and international tournaments"]},
@@ -126,13 +127,13 @@ header h3{margin:0;font-weight:normal;font-size:18px;}
 </div>
 </div>
 <script>
-const translations = ${JSON.stringify(translations)};
+const translationsData = ${JSON.stringify(translations)};
 function setLang(lang){
     const rtl = (lang==='ar');
     document.body.dir = rtl ? 'rtl':'ltr';
-    document.getElementById('bioBox').textContent = translations[lang].bio;
-    document.getElementById('expList').innerHTML = translations[lang].experience.map(e=>`<li>${e}</li>`).join('');
-    document.getElementById('achList').innerHTML = translations[lang].achievements.map(a=>`<li>${a}</li>`).join('');
+    document.getElementById('bioBox').textContent = translationsData[lang].bio;
+    document.getElementById('expList').innerHTML = translationsData[lang].experience.map(e=>`<li>${e}</li>`).join('');
+    document.getElementById('achList').innerHTML = translationsData[lang].achievements.map(a=>`<li>${a}</li>`).join('');
 }
 </script>
 </body>
