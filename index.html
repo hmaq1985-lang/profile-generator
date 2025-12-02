@@ -1,74 +1,72 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
 <meta charset="UTF-8">
-<title>لوحة التحكم الذكية</title>
+<title>الصفحة الشخصية</title>
 
 <style>
-body{
+body {
     font-family: "Tahoma";
-    background:#eef1f7;
-    padding:20px;
+    background: #f4f6fa;
+    margin: 0;
+    padding: 0;
 }
-.container{
-    max-width:900px;
-    background:white;
-    padding:30px;
-    margin:auto;
-    border-radius:20px;
-    box-shadow:0 4px 20px rgba(0,0,0,0.15);
+
+.header {
+    background: #004aad;
+    padding: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
-h2{
-    text-align:center;
-    margin-bottom:25px;
+
+.header img {
+    max-height: 70px;
+    border-radius: 10px;
 }
-label{
-    font-weight:bold;
-    margin-top:10px;
-    display:block;
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    margin-top: 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
-input, textarea{
-    width:100%;
-    padding:12px;
-    border:1px solid #ddd;
-    border-radius:10px;
-    margin-top:5px;
-    font-size:16px;
+
+.photo {
+    text-align: center;
 }
-.upload-box{
-    background:#fafafa;
-    border:2px dashed #bbb;
-    padding:25px;
-    text-align:center;
-    margin-top:10px;
-    border-radius:15px;
-    cursor:pointer;
+
+.photo img {
+    max-width: 180px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.10);
 }
-button{
-    width:100%;
-    padding:15px;
-    background:#004aad;
-    color:white;
-    font-size:18px;
-    border:none;
-    border-radius:12px;
-    margin-top:25px;
-    cursor:pointer;
+
+h2 {
+    text-align: center;
 }
-button:hover{
-    background:#003b8a;
+
+.langs {
+    text-align: center;
+    margin-top: 20px;
 }
-.preview{
-    margin-top:20px;
-    padding:20px;
-    background:#f9f9f9;
-    border-radius:15px;
-    text-align:center;
+
+.langs button {
+    padding: 10px 18px;
+    margin: 5px;
+    border: none;
+    background: #eee;
+    border-radius: 8px;
+    cursor: pointer;
 }
-img{
-    max-width:150px;
-    border-radius:15px;
-    margin:10px 0;
+
+.langs button:hover {
+    background: #ddd;
 }
 </style>
 
@@ -76,96 +74,91 @@ img{
 
 <body>
 
+<div class="header">
+    <h2 id="nameDisplay">---</h2>
+    <img id="logoDisplay" src="">
+</div>
+
 <div class="container">
 
-<h2>لوحة التحكم الذكية</h2>
+    <div class="langs">
+        <button onclick="setLang('ar')">العربية</button>
+        <button onclick="setLang('en')">English</button>
+        <button onclick="setLang('fr')">Français</button>
+        <button onclick="setLang('es')">Español</button>
+        <button onclick="setLang('de')">Deutsch</button>
+    </div>
 
-<label>الاسم الكامل</label>
-<input id="name">
+    <div class="photo">
+        <img id="photoDisplay" src="">
+    </div>
 
-<label>المنصب / العنوان الوظيفي</label>
-<input id="title">
+    <h2 id="titleDisplay">---</h2>
 
-<label>النبذة الشخصية</label>
-<textarea id="bio" rows="4"></textarea>
+    <h3 id="bioTitle"></h3>
+    <p id="bioDisplay"></p>
 
-<label>الإنجازات</label>
-<textarea id="achievements" rows="4"></textarea>
+    <h3 id="achTitle"></h3>
+    <p id="achDisplay"></p>
 
-<br><br>
-<h3>رفع الصورة الشخصية</h3>
-<div class="upload-box" onclick="document.getElementById('photoInput').click()">اضغط لرفع صورة</div>
-<input type="file" id="photoInput" accept="image/*" style="display:none">
+    <br><br>
 
-<div class="preview"><img id="photoPreview"></div>
-
-<br>
-<h3>رفع الشعار</h3>
-<div class="upload-box" onclick="document.getElementById('logoInput').click()">اضغط لرفع الشعار</div>
-<input type="file" id="logoInput" accept="image/*" style="display:none">
-
-<div class="preview"><img id="logoPreview"></div>
-
-<br>
-<h3>رفع CV (PDF)</h3>
-<div class="upload-box" onclick="document.getElementById('cvInput').click()">اضغط لرفع السيرة الذاتية</div>
-<input type="file" id="cvInput" accept="application/pdf" style="display:none">
-
-<p id="cvStatus" style="text-align:center; font-weight:bold;"></p>
-
-<button onclick="save()">حفظ البيانات</button>
-
-<p id="status" style="text-align:center; margin-top:20px; font-size:18px; font-weight:bold;"></p>
+    <a id="cvDownload" href="#" download="CV.pdf"
+       style="background:#004aad; color:white; padding:10px 20px;
+              border-radius:10px; text-decoration:none;">
+        تحميل السيرة الذاتية
+    </a>
 
 </div>
 
 <script>
-let photoBase64 = "";
-let logoBase64 = "";
-let cvBase64 = "";
+let data = JSON.parse(localStorage.getItem("profile_data") || "{}");
 
-// تحويل الملفات إلى Base64 للتخزين
-function toBase64(file, callback){
-    let reader = new FileReader();
-    reader.onload = () => callback(reader.result);
-    reader.readAsDataURL(file);
+document.getElementById("nameDisplay").innerText = data.name || "—";
+document.getElementById("titleDisplay").innerText = data.title || "—";
+document.getElementById("bioDisplay").innerText = data.bio || "—";
+document.getElementById("achDisplay").innerText = data.achievements || "—";
+
+if (data.photo) document.getElementById("photoDisplay").src = data.photo;
+if (data.logo) document.getElementById("logoDisplay").src = data.logo;
+if (data.cv) document.getElementById("cvDownload").href = data.cv;
+
+let texts = {
+    ar: {
+        bio: "السيرة الذاتية",
+        ach: "الإنجازات"
+    },
+    en: {
+        bio: "Biography",
+        ach: "Achievements"
+    },
+    fr: {
+        bio: "Biographie",
+        ach: "Réalisations"
+    },
+    es: {
+        bio: "Biografía",
+        ach: "Logros"
+    },
+    de: {
+        bio: "Biografie",
+        ach: "Erfolge"
+    }
+};
+
+function setLang(lang) {
+    document.getElementById("bioTitle").innerText = texts[lang].bio;
+    document.getElementById("achTitle").innerText = texts[lang].ach;
+
+    if (lang === "ar") {
+        document.body.setAttribute("dir", "rtl");
+    } else {
+        document.body.setAttribute("dir", "ltr");
+    }
 }
 
-// استلام صور
-document.getElementById("photoInput").addEventListener("change", function(){
-    toBase64(this.files[0], function(data){
-        photoBase64 = data;
-        document.getElementById("photoPreview").src = data;
-    });
-});
-document.getElementById("logoInput").addEventListener("change", function(){
-    toBase64(this.files[0], function(data){
-        logoBase64 = data;
-        document.getElementById("logoPreview").src = data;
-    });
-});
-document.getElementById("cvInput").addEventListener("change", function(){
-    toBase64(this.files[0], function(data){
-        cvBase64 = data;
-        document.getElementById("cvStatus").innerText = "✔ تم رفع السيرة الذاتية";
-    });
-});
-
-// حفظ
-function save(){
-    const data = {
-        name: document.getElementById("name").value,
-        title: document.getElementById("title").value,
-        bio: document.getElementById("bio").value,
-        achievements: document.getElementById("achievements").value,
-        photo: photoBase64,
-        logo: logoBase64,
-        cv: cvBase64
-    };
-
-    localStorage.setItem("profile_data", JSON.stringify(data));
-    document.getElementById("status").innerHTML = "✔ تم حفظ البيانات — افتح الملف profile.html";
-}
+// افتراضي = عربي
+setLang("ar");
 </script>
 
 </body>
