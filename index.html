@@ -3,25 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مولّد الصفحة الشخصية متعددة اللغات</title>
+<title>مولّد الصفحة الشخصية الاحترافية</title>
 <style>
-body { font-family: 'Segoe UI', Tahoma, sans-serif; background:#f0f2f5; padding:20px; }
-.container { max-width:900px; margin:auto; background:#fff; padding:30px; border-radius:15px; box-shadow:0 6px 25px rgba(0,0,0,0.1);}
-h1 { text-align:center; color:#c8102e; }
+body {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: #f0f2f5;
+  margin: 0; padding: 20px;
+}
+.container {
+  max-width: 900px; margin: auto;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+  padding: 30px;
+}
+h1 { text-align: center; color: #c8102e; margin-bottom: 10px; }
 form { display:flex; flex-direction:column; gap:10px; }
 input, textarea, button { padding:10px; border-radius:8px; border:1px solid #ccc; font-size:14px; }
 button { background:#c8102e; color:#fff; font-weight:bold; border:none; cursor:pointer; transition:0.3s; }
 button:hover { background:#a50b24; }
 label { font-weight:bold; margin-top:10px; }
+
 .language-tabs { display:flex; gap:10px; margin-bottom:10px; justify-content:center; }
 .language-tabs button { background:#ddd; color:#333; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; }
 .language-tabs button.active { background:#c8102e; color:white; }
+
 </style>
 </head>
 <body>
 
 <div class="container">
-<h1>مولّد الصفحة الشخصية متعددة اللغات</h1>
+<h1>مولّد الصفحة الشخصية الاحترافية</h1>
 
 <div class="language-tabs">
   <button class="active" data-lang="ar">AR</button>
@@ -63,14 +75,8 @@ tabs.forEach(tab=>{
     tabs.forEach(t=>t.classList.remove('active'));
     tab.classList.add('active');
     currentLang = tab.dataset.lang;
-    updateFormLanguage();
   });
 });
-
-function updateFormLanguage(){
-  // في هذا المثال نترك الحقول للغة العربية فقط، لاحقاً يمكن توسيعها لكل لغة
-  // حالياً النسخة النهائية ستدعم العربية بشكل أساسي، ويمكنك إضافة نفس الحقول للغات الأخرى
-}
 
 // تحويل ملف لصيغة Base64
 async function fileToBase64(file){
@@ -87,7 +93,6 @@ let lastHTML = "";
 
 async function generatePage(){
     try{
-        // البيانات
         const name = document.getElementById('name_ar').value;
         const bio = document.getElementById('bio_ar').value;
         const experience = document.getElementById('experience_ar').value.split('\n').filter(l=>l.trim()!=='');
@@ -110,25 +115,28 @@ async function generatePage(){
 <meta charset="UTF-8">
 <title>${name}</title>
 <style>
-body { font-family:'Segoe UI',Tahoma,sans-serif; background:#f9f9f9; padding:20px; }
-header { text-align:center; background:#c8102e; color:white; padding:20px; border-radius:15px;}
-header img.profile { width:150px; border-radius:50%; border:3px solid white; }
-header img.logo { width:80px; margin-top:10px; }
-h1,h2,h3 { margin:5px 0; }
+body { font-family:'Segoe UI',Tahoma,sans-serif; background:#f0f2f5; margin:0; padding:0; }
+header { display:flex; justify-content:space-between; align-items:center; background:#c8102e; color:white; padding:20px; }
+header img.logo { height:80px; }
+header h1 { margin:0; font-size:24px; text-align:center; flex:1; }
+.container { max-width:900px; margin:20px auto; background:white; border-radius:15px; padding:30px; box-shadow:0 6px 25px rgba(0,0,0,0.1); }
+.profile-section { display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start; }
+.profile-section img.profile { width:150px; border-radius:50%; border:3px solid #c8102e; }
+.profile-info { flex:1; min-width:200px; }
+h2 { border-bottom:2px solid #c8102e; padding-bottom:5px; color:#333; }
 ul { list-style-type: disc; padding-left:20px; }
 .lang-buttons { margin:15px 0; text-align:center; }
-.lang-buttons button { margin:0 5px; padding:5px 10px; border-radius:6px; border:none; cursor:pointer; }
+.lang-buttons button { margin:0 5px; padding:5px 10px; border-radius:6px; border:none; cursor:pointer; background:#c8102e; color:white; }
 </style>
 </head>
 <body>
+
 <header>
-<img src="${profileBase64}" class="profile">
-<h1>${name}</h1>
-<h3>رئيس الاتحاد البحريني لكرة اليد</h3>
 <img src="${logoBase64}" class="logo">
+<h1>${name}</h1>
 </header>
 
-<div>
+<div class="container">
 <div class="lang-buttons">
 <button onclick="changeLang('ar')">AR</button>
 <button onclick="changeLang('en')">EN</button>
@@ -137,6 +145,9 @@ ul { list-style-type: disc; padding-left:20px; }
 <button onclick="changeLang('de')">DE</button>
 </div>
 
+<div class="profile-section">
+<img src="${profileBase64}" class="profile">
+<div class="profile-info">
 <h2>نبذة تعريفية</h2>
 <p>${bio}</p>
 
@@ -151,14 +162,15 @@ ul { list-style-type: disc; padding-left:20px; }
 
 <h2>السيرة الذاتية</h2>
 <a href="${cvBase64}" download="${name}_CV.pdf">تحميل ملف CV</a>
-
+</div>
+</div>
 </div>
 
 <script>
 function changeLang(lang){
     document.documentElement.lang = lang;
     document.documentElement.dir = (lang==='ar')?'rtl':'ltr';
-    alert('تغيير اللغة إلى: '+lang+' (يمكنك إضافة المحتوى الخاص بكل لغة لاحقاً)');
+    alert('تغيير اللغة إلى: '+lang+' (يمكنك إضافة محتوى لكل لغة لاحقاً)');
 }
 </script>
 
@@ -166,7 +178,7 @@ function changeLang(lang){
 </html>
         `;
 
-        // تحميل HTML النهائي
+        // تحميل HTML النهائي مباشرة
         const blob = new Blob([lastHTML], {type:"text/html"});
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
