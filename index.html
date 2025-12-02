@@ -3,28 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مولّد الصفحة الشخصية</title>
+<title>مولّد الصفحة الشخصية متعددة اللغات</title>
 <style>
-body { font-family: 'Tahoma', sans-serif; background:#f9f9f9; margin:0; padding:20px; }
-.container { max-width:900px; margin:auto; background:#fff; padding:20px 30px; border-radius:15px; box-shadow:0 4px 20px rgba(0,0,0,0.1); }
+body { font-family: 'Segoe UI', Tahoma, sans-serif; background:#f0f2f5; padding:20px; }
+.container { max-width:900px; margin:auto; background:#fff; padding:30px; border-radius:15px; box-shadow:0 6px 25px rgba(0,0,0,0.1);}
+h1 { text-align:center; color:#c8102e; }
 form { display:flex; flex-direction:column; gap:10px; }
 input, textarea, button { padding:10px; border-radius:8px; border:1px solid #ccc; font-size:14px; }
-button { background:#c8102e; color:#fff; font-weight:bold; border:none; cursor:pointer; }
+button { background:#c8102e; color:#fff; font-weight:bold; border:none; cursor:pointer; transition:0.3s; }
 button:hover { background:#a50b24; }
 label { font-weight:bold; margin-top:10px; }
+.language-tabs { display:flex; gap:10px; margin-bottom:10px; justify-content:center; }
+.language-tabs button { background:#ddd; color:#333; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; }
+.language-tabs button.active { background:#c8102e; color:white; }
 </style>
 </head>
 <body>
 
 <div class="container">
-<h1>مولّد الصفحة الشخصية</h1>
+<h1>مولّد الصفحة الشخصية متعددة اللغات</h1>
+
+<div class="language-tabs">
+  <button class="active" data-lang="ar">AR</button>
+  <button data-lang="en">EN</button>
+  <button data-lang="fr">FR</button>
+  <button data-lang="es">ES</button>
+  <button data-lang="de">DE</button>
+</div>
 
 <form id="profileForm">
-<input type="text" id="name" placeholder="اسم الرئيس" value="علي محمد عيسى اسحاقي">
-<textarea id="bio" placeholder="نبذة تعريفية" rows="3">نبذة تعريفية افتراضية...</textarea>
-<textarea id="experience" placeholder="الخبرات (سطر بسطر)" rows="3">16 سنة رئيس الاتحاد البحريني لكرة اليد.</textarea>
-<textarea id="achievements" placeholder="الإنجازات (سطر بسطر)" rows="3">تأسيس أكاديمية كرة اليد
+<input type="text" id="name_ar" placeholder="الاسم بالعربية" value="علي محمد عيسى اسحاقي">
+<textarea id="bio_ar" placeholder="نبذة تعريفية بالعربية" rows="3">نبذة تعريفية افتراضية...</textarea>
+<textarea id="experience_ar" placeholder="الخبرات بالعربية (سطر بسطر)" rows="3">16 سنة رئيس الاتحاد البحريني لكرة اليد.</textarea>
+<textarea id="achievements_ar" placeholder="الإنجازات بالعربية (سطر بسطر)" rows="3">تأسيس أكاديمية كرة اليد
 تنظيم بطولات محلية ودولية</textarea>
+
 <input type="text" id="email" placeholder="البريد الإلكتروني" value="example@email.com">
 <input type="text" id="phone" placeholder="الهاتف" value="0000-0000">
 
@@ -42,6 +55,24 @@ label { font-weight:bold; margin-top:10px; }
 </div>
 
 <script>
+// تبويب اللغة
+const tabs = document.querySelectorAll('.language-tabs button');
+let currentLang = 'ar';
+tabs.forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    tabs.forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    currentLang = tab.dataset.lang;
+    updateFormLanguage();
+  });
+});
+
+function updateFormLanguage(){
+  // في هذا المثال نترك الحقول للغة العربية فقط، لاحقاً يمكن توسيعها لكل لغة
+  // حالياً النسخة النهائية ستدعم العربية بشكل أساسي، ويمكنك إضافة نفس الحقول للغات الأخرى
+}
+
+// تحويل ملف لصيغة Base64
 async function fileToBase64(file){
     return new Promise((resolve,reject)=>{
         if(!file){ resolve(''); return; }
@@ -56,10 +87,11 @@ let lastHTML = "";
 
 async function generatePage(){
     try{
-        const name = document.getElementById('name').value;
-        const bio = document.getElementById('bio').value;
-        const experience = document.getElementById('experience').value.split('\n').filter(l=>l.trim()!=='');
-        const achievements = document.getElementById('achievements').value.split('\n').filter(l=>l.trim()!=='');
+        // البيانات
+        const name = document.getElementById('name_ar').value;
+        const bio = document.getElementById('bio_ar').value;
+        const experience = document.getElementById('experience_ar').value.split('\n').filter(l=>l.trim()!=='');
+        const achievements = document.getElementById('achievements_ar').value.split('\n').filter(l=>l.trim()!=='');
         const email = document.getElementById('email').value;
         const phone = document.getElementById('phone').value;
 
@@ -73,17 +105,19 @@ async function generatePage(){
 
         lastHTML = `
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="${currentLang}" dir="${currentLang==='ar'?'rtl':'ltr'}">
 <head>
 <meta charset="UTF-8">
 <title>${name}</title>
 <style>
-body { font-family:'Tahoma',sans-serif; background:#f9f9f9; padding:20px; }
+body { font-family:'Segoe UI',Tahoma,sans-serif; background:#f9f9f9; padding:20px; }
 header { text-align:center; background:#c8102e; color:white; padding:20px; border-radius:15px;}
 header img.profile { width:150px; border-radius:50%; border:3px solid white; }
 header img.logo { width:80px; margin-top:10px; }
 h1,h2,h3 { margin:5px 0; }
 ul { list-style-type: disc; padding-left:20px; }
+.lang-buttons { margin:15px 0; text-align:center; }
+.lang-buttons button { margin:0 5px; padding:5px 10px; border-radius:6px; border:none; cursor:pointer; }
 </style>
 </head>
 <body>
@@ -95,6 +129,14 @@ ul { list-style-type: disc; padding-left:20px; }
 </header>
 
 <div>
+<div class="lang-buttons">
+<button onclick="changeLang('ar')">AR</button>
+<button onclick="changeLang('en')">EN</button>
+<button onclick="changeLang('fr')">FR</button>
+<button onclick="changeLang('es')">ES</button>
+<button onclick="changeLang('de')">DE</button>
+</div>
+
 <h2>نبذة تعريفية</h2>
 <p>${bio}</p>
 
@@ -111,11 +153,20 @@ ul { list-style-type: disc; padding-left:20px; }
 <a href="${cvBase64}" download="${name}_CV.pdf">تحميل ملف CV</a>
 
 </div>
+
+<script>
+function changeLang(lang){
+    document.documentElement.lang = lang;
+    document.documentElement.dir = (lang==='ar')?'rtl':'ltr';
+    alert('تغيير اللغة إلى: '+lang+' (يمكنك إضافة المحتوى الخاص بكل لغة لاحقاً)');
+}
+</script>
+
 </body>
 </html>
         `;
 
-        // تحميل HTML النهائي مباشرة
+        // تحميل HTML النهائي
         const blob = new Blob([lastHTML], {type:"text/html"});
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
