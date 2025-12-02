@@ -11,41 +11,38 @@ form { display:flex; flex-direction:column; gap:10px; }
 input, textarea, button { padding:10px; border-radius:8px; border:1px solid #ccc; font-size:14px; }
 button { background:#c8102e; color:#fff; font-weight:bold; border:none; cursor:pointer; }
 button:hover { background:#a50b24; }
-.lang-btns { display:flex; gap:10px; justify-content:center; margin-top:20px; }
-.lang-btns button { padding:5px 10px; cursor:pointer; }
+label { font-weight:bold; margin-top:10px; }
 </style>
 </head>
 <body>
 
 <div class="container">
-<h1>مولّد الصفحة الشخصية متعدد اللغات</h1>
+<h1>مولّد الصفحة الشخصية</h1>
 
 <form id="profileForm">
-<input type="text" id="name" placeholder="اسم الرئيس">
-<textarea id="bio" placeholder="نبذة تعريفية" rows="3"></textarea>
-<textarea id="experience" placeholder="الخبرات (سطر بسطر)" rows="3"></textarea>
-<textarea id="achievements" placeholder="الإنجازات (سطر بسطر)" rows="3"></textarea>
-<input type="text" id="email" placeholder="example@email.com">
-<input type="text" id="phone" placeholder="0000-0000">
-<label>رفع الصورة الشخصية</label><input type="file" id="profileImg" accept="image/*">
-<label>رفع شعار الاتحاد</label><input type="file" id="logoImg" accept="image/*">
-<label>رفع ملف CV</label><input type="file" id="cvFile" accept=".pdf">
-<button type="button" onclick="downloadPage()">تحميل الصفحة النهائية</button>
+<input type="text" id="name" placeholder="اسم الرئيس" value="علي محمد عيسى اسحاقي">
+<textarea id="bio" placeholder="نبذة تعريفية" rows="3">نبذة تعريفية افتراضية...</textarea>
+<textarea id="experience" placeholder="الخبرات (سطر بسطر)" rows="3">16 سنة رئيس الاتحاد البحريني لكرة اليد.</textarea>
+<textarea id="achievements" placeholder="الإنجازات (سطر بسطر)" rows="3">تأسيس أكاديمية كرة اليد
+تنظيم بطولات محلية ودولية</textarea>
+<input type="text" id="email" placeholder="البريد الإلكتروني" value="example@email.com">
+<input type="text" id="phone" placeholder="الهاتف" value="0000-0000">
+
+<label>رفع الصورة الشخصية</label>
+<input type="file" id="profileImg" accept="image/*">
+
+<label>رفع شعار الاتحاد</label>
+<input type="file" id="logoImg" accept="image/*">
+
+<label>رفع ملف CV</label>
+<input type="file" id="cvFile" accept=".pdf">
+
+<button type="button" onclick="generatePage()">توليد وتحميل الصفحة النهائية</button>
 </form>
 </div>
 
 <script>
-let lastHTML = "";
-
-const translations = {
-  ar: {bio:"نبذة تعريفية افتراضية.", experience:["16 سنة رئيس الاتحاد البحريني لكرة اليد."], achievements:["تأسيس أكاديمية كرة اليد","تنظيم بطولات محلية ودولية"]},
-  en: {bio:"Default profile bio.", experience:["16 years president of Bahrain Handball Federation."], achievements:["Founded Handball Academy","Organized local and international tournaments"]},
-  fr: {bio:"Biographie par défaut.", experience:["16 ans président de la Fédération bahreïnie de handball."], achievements:["Fondation de l'académie de handball","Organisation de tournois locaux et internationaux"]},
-  es: {bio:"Biografía por defecto.", experience:["16 años presidente de la Federación de Balonmano de Baréin."], achievements:["Fundación de la academia de balonmano","Organización de torneos locales e internacionales"]},
-  de: {bio:"Standardbiografie.", experience:["16 Jahre Präsident des Bahrain Handballverbands."], achievements:["Gründung der Handballakademie","Organisation lokaler und internationaler Turniere"]}
-};
-
-function fileToBase64(file){
+async function fileToBase64(file){
     return new Promise((resolve,reject)=>{
         if(!file){ resolve(''); return; }
         const reader = new FileReader();
@@ -55,12 +52,16 @@ function fileToBase64(file){
     });
 }
 
-async function downloadPage(){
+let lastHTML = "";
+
+async function generatePage(){
     try{
-        const name = document.getElementById('name').value || "اسم الرئيس";
-        const bioInput = document.getElementById('bio').value || translations.ar.bio;
-        const expInput = document.getElementById('experience').value.split('\n').filter(l=>l.trim()!=='') || translations.ar.experience;
-        const achInput = document.getElementById('achievements').value.split('\n').filter(l=>l.trim()!=='') || translations.ar.achievements;
+        const name = document.getElementById('name').value;
+        const bio = document.getElementById('bio').value;
+        const experience = document.getElementById('experience').value.split('\n').filter(l=>l.trim()!=='');
+        const achievements = document.getElementById('achievements').value.split('\n').filter(l=>l.trim()!=='');
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
 
         const profileFile = document.getElementById('profileImg').files[0];
         const logoFile = document.getElementById('logoImg').files[0];
@@ -77,14 +78,12 @@ async function downloadPage(){
 <meta charset="UTF-8">
 <title>${name}</title>
 <style>
-body { font-family: 'Tahoma', sans-serif; background:#f9f9f9; padding:20px; }
+body { font-family:'Tahoma',sans-serif; background:#f9f9f9; padding:20px; }
 header { text-align:center; background:#c8102e; color:white; padding:20px; border-radius:15px;}
 header img.profile { width:150px; border-radius:50%; border:3px solid white; }
 header img.logo { width:80px; margin-top:10px; }
 h1,h2,h3 { margin:5px 0; }
 ul { list-style-type: disc; padding-left:20px; }
-.lang-btns { display:flex; gap:10px; justify-content:center; margin-top:20px; }
-.lang-btns button { padding:5px 10px; cursor:pointer; }
 </style>
 </head>
 <body>
@@ -97,35 +96,21 @@ ul { list-style-type: disc; padding-left:20px; }
 
 <div>
 <h2>نبذة تعريفية</h2>
-<p id="bioBox">${bioInput}</p>
+<p>${bio}</p>
 
 <h2>الخبرات</h2>
-<ul id="expList">${expInput.map(e=>`<li>${e}</li>`).join('')}</ul>
+<ul>${experience.map(e=>`<li>${e}</li>`).join('')}</ul>
 
 <h2>الإنجازات</h2>
-<ul id="achList">${achInput.map(a=>`<li>${a}</li>`).join('')}</ul>
+<ul>${achievements.map(a=>`<li>${a}</li>`).join('')}</ul>
+
+<h2>معلومات التواصل</h2>
+<p>البريد: ${email}<br>الهاتف: ${phone}</p>
 
 <h2>السيرة الذاتية</h2>
-<a href="${cvBase64}" download="${name}_CV.pdf">تحميل ملف السيرة الذاتية (CV)</a>
+<a href="${cvBase64}" download="${name}_CV.pdf">تحميل ملف CV</a>
 
-<div class="lang-btns">
-<button onclick="setLang('ar')">AR</button>
-<button onclick="setLang('en')">EN</button>
-<button onclick="setLang('fr')">FR</button>
-<button onclick="setLang('es')">ES</button>
-<button onclick="setLang('de')">DE</button>
 </div>
-
-<script>
-const translationsData = ${JSON.stringify(translations)};
-function setLang(lang){
-    document.body.dir = (lang==='ar')?'rtl':'ltr';
-    document.getElementById('bioBox').textContent = translationsData[lang].bio;
-    document.getElementById('expList').innerHTML = translationsData[lang].experience.map(e=>\`<li>\${e}</li>\`).join('');
-    document.getElementById('achList').innerHTML = translationsData[lang].achievements.map(a=>\`<li>\${a}</li>\`).join('');
-}
-</script>
-
 </body>
 </html>
         `;
