@@ -5,20 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مولّد الصفحة الشخصية</title>
 <style>
-body { font-family:'Tahoma',sans-serif; background:#f9f9f9; margin:0; padding:20px;}
-.container { max-width:900px; margin:auto; background:#fff; padding:20px 30px; border-radius:15px; box-shadow:0 4px 20px rgba(0,0,0,0.1);}
-form { display:flex; flex-direction:column; gap:10px; margin-bottom:20px;}
-input,textarea,button,select { padding:10px; border-radius:8px; border:1px solid #ccc;}
-button { background:#c8102e; color:#fff; font-weight:bold; border:none; cursor:pointer; }
-button:hover { background:#a50b24; }
-.preview { margin-top:20px; }
-iframe { width:100%; height:700px; border:1px solid #ccc; border-radius:12px; }
-.lang-btns { display:flex; gap:10px; margin-top:10px;}
-.lang-btns button { background:#eee; color:#333; font-weight:bold; border:1px solid #ccc; padding:8px; cursor:pointer;}
-.lang-btns button.active { background:#c8102e; color:white;}
+body { font-family: 'Tahoma', sans-serif; background: #f9f9f9; margin: 0; padding: 20px; }
+.container { max-width: 900px; margin: auto; background: #fff; padding: 20px 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+input, textarea, button, select { padding: 10px; border-radius: 8px; border: 1px solid #ccc; }
+button { background: #c8102e; color: #fff; font-weight: bold; border: none; cursor: pointer; }
+button:hover { background: #a50b24; }
+iframe { width: 100%; height: 700px; border: 1px solid #ccc; border-radius: 12px; margin-top: 20px; }
+.lang-btns { display: flex; gap: 10px; margin-top: 10px; }
+.lang-btns button { background: #eee; color: #333; font-weight: bold; border: 1px solid #ccc; padding: 8px; cursor: pointer; }
+.lang-btns button.active { background: #c8102e; color: white; }
 </style>
 </head>
 <body>
+
 <div class="container">
 <h1>مولّد الصفحة الشخصية متعدد اللغات</h1>
 
@@ -40,11 +40,11 @@ iframe { width:100%; height:700px; border:1px solid #ccc; border-radius:12px; }
 <iframe id="previewFrame"></iframe>
 <button onclick="downloadPage()">تحميل HTML النهائي</button>
 </div>
-</div>
 
 <script>
 let lastHTML = "";
 
+// الترجمات الافتراضية لكل لغة
 const translations = {
   ar: {bio:"نبذة تعريفية افتراضية.", experience:["16 سنة رئيس الاتحاد البحريني لكرة اليد."], achievements:["تأسيس أكاديمية كرة اليد","تنظيم بطولات محلية ودولية"]},
   en: {bio:"Default profile bio.", experience:["16 years president of Bahrain Handball Federation."], achievements:["Founded Handball Academy","Organized local and international tournaments"]},
@@ -53,8 +53,9 @@ const translations = {
   de: {bio:"Standardbiografie.", experience:["16 Jahre Präsident des Bahrain Handballverbands."], achievements:["Gründung der Handballakademie","Organisation lokaler und internationaler Turniere"]}
 };
 
+// تحويل الملفات إلى Base64
 function fileToBase64(file){
-    return new Promise((resolve,reject)=>{
+    return new Promise((resolve, reject)=>{
         if(!file){ resolve(''); return; }
         const reader = new FileReader();
         reader.onload = ()=>resolve(reader.result);
@@ -63,8 +64,9 @@ function fileToBase64(file){
     });
 }
 
+// توليد الصفحة
 async function generatePage(){
-    try{
+    try {
         const name = document.getElementById('name').value || "اسم الرئيس";
         const email = document.getElementById('email').value || "example@email.com";
         const phone = document.getElementById('phone').value || "0000-0000";
@@ -97,6 +99,7 @@ async function generatePage(){
 <ul id="achList">${translations.ar.achievements.map(a=>`<li>${a}</li>`).join('')}</ul>
 <h2>السيرة الذاتية</h2>
 <a href="${cvBase64}" download="${name}_CV.pdf">تحميل ملف السيرة الذاتية (CV)</a>
+
 <div class="lang-btns" style="margin-top:20px;">
 <button onclick="setLang('ar')">AR</button>
 <button onclick="setLang('en')">EN</button>
@@ -105,6 +108,7 @@ async function generatePage(){
 <button onclick="setLang('de')">DE</button>
 </div>
 </div>
+
 <script>
 const translationsData = ${JSON.stringify(translations)};
 function setLang(lang){
@@ -120,9 +124,12 @@ function setLang(lang){
 
         document.getElementById('previewFrame').srcdoc = lastHTML;
 
-    } catch(err){ alert(err); }
+    } catch(err) {
+        alert(err);
+    }
 }
 
+// تحميل الصفحة النهائية
 function downloadPage(){
     if(!lastHTML){ alert("يجب توليد الصفحة أولاً"); return; }
     const blob = new Blob([lastHTML], {type:"text/html"});
@@ -136,5 +143,6 @@ function downloadPage(){
     URL.revokeObjectURL(url);
 }
 </script>
+
 </body>
 </html>
