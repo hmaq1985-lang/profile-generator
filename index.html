@@ -1,1 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minimal V-Card Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+    }
+    .container {
+      background: white;
+      width: 100%;
+      max-width: 500px;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    }
+    h2 { text-align: center; margin-bottom: 20px; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      margin-top: 5px;
+      font-size: 15px;
+    }
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: black;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      border-radius: 15px;
+      background: #fafafa;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+    }
+    .vcard-preview {
+      padding: 20px;
+      background: white;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    }
+    .qr {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
 
+<div class="container">
+  <h2>Minimal V-Card Generator</h2>
+
+  <label>Full Name</label>
+  <input id="name" placeholder="John Doe" />
+
+  <label>Job Title</label>
+  <input id="title" placeholder="Product Manager" />
+
+  <label>Phone Number</label>
+  <input id="phone" placeholder="0000 0000" />
+
+  <label>Email</label>
+  <input id="email" placeholder="example@mail.com" />
+
+  <label>Company</label>
+  <input id="company" placeholder="Company Name" />
+
+  <label>Website</label>
+  <input id="website" placeholder="https://example.com" />
+
+  <button onclick="generateVCard()">Generate V-Card + QR</button>
+
+  <div id="output" class="result" style="display:none"></div>
+</div>
+
+<script>
+function generateVCard() {
+  const name = document.getElementById("name").value;
+  const title = document.getElementById("title").value;
+  const phone = document.getElementById("phone").value;
+  const email = document.getElementById("email").value;
+  const company = document.getElementById("company").value;
+  const website = document.getElementById("website").value;
+
+  const vcard = `BEGIN:VCARD\nVERSION:3.0\nN:${name}\nTITLE:${title}\nTEL:${phone}\nEMAIL:${email}\nORG:${company}\nURL:${website}\nEND:VCARD`;
+
+  const encoded = encodeURIComponent(vcard);
+  const qrURL = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encoded}`;
+
+  document.getElementById("output").innerHTML = `
+    <div class='vcard-preview'>
+      <h3>${name}</h3>
+      <p>${title}</p>
+      <p>${company}</p>
+      <p>${phone}</p>
+      <p>${email}</p>
+      <p>${website}</p>
+
+      <div class='qr'>
+        <img src='${qrURL}' width='200' />
+      </div>
+
+      <br>
+      <a href="data:text/vcard;charset=utf-8,${encoded}" download="vcard.vcf" style="text-decoration:none">
+        <button>Download V-Card File</button>
+      </a>
+    </div>
+  `;
+
+  document.getElementById("output").style.display = "block";
+}
+</script>
+
+</body>
+</html>
