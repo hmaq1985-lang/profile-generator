@@ -1,131 +1,173 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Minimal V-Card Generator</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f7f7f7;
-      margin: 0;
-      padding: 40px;
-      display: flex;
-      justify-content: center;
-    }
-    .container {
-      background: white;
-      width: 100%;
-      max-width: 500px;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
-    }
-    h2 { text-align: center; margin-bottom: 20px; }
-    label { display: block; margin-top: 15px; font-weight: bold; }
-    input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid #ddd;
-      margin-top: 5px;
-      font-size: 15px;
-    }
-    button {
-      margin-top: 25px;
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 12px;
-      background: black;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .result {
-      margin-top: 30px;
-      padding: 20px;
-      border-radius: 15px;
-      background: #fafafa;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-    }
-    .vcard-preview {
-      padding: 20px;
-      background: white;
-      border-radius: 15px;
-      text-align: center;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
-    }
-    .qr {
-      margin-top: 20px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>علي محمد عيسى اسحاقي - رئيس الاتحاد البحريني لكرة اليد</title>
+<style>
+body {
+    margin: 0;
+    font-family: 'Tahoma', sans-serif;
+    background: #f5f6fa;
+}
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.1);
+}
+.header {
+    text-align: center;
+}
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #0077ff;
+}
+.logo {
+    width: 80px;
+    margin-top: 15px;
+}
+h1 { margin: 10px 0 5px; }
+h3 { color: #555; margin-top: 0; }
+.section { margin-top: 30px; }
+.section h2 {
+    font-size: 22px;
+    border-right: 4px solid #0077ff;
+    padding-right: 10px;
+}
+.info-box {
+    background: #f2f4ff;
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 10px;
+}
+.info-box ul { margin: 0; padding-right: 20px; }
+.language-switcher {
+    margin-top: 20px;
+    text-align: center;
+}
+.language-switcher button {
+    margin: 0 5px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 10px;
+    background: #0077ff;
+    color: #fff;
+    cursor: pointer;
+}
+.language-switcher button:hover { background: #005fcc; }
+footer {
+    margin-top: 40px;
+    text-align: center;
+    color: #777;
+    font-size: 14px;
+}
+</style>
 </head>
 <body>
-
 <div class="container">
-  <h2>Minimal V-Card Generator</h2>
+    <div class="header">
+        <img class="profile-img" src="profile.jpg" alt="الصورة الشخصية">
+        <h1>علي محمد عيسى اسحاقي</h1>
+        <h3>رئيس الاتحاد البحريني لكرة اليد</h3>
+        <img class="logo" src="logo.png" alt="شعار الاتحاد">
+    </div>
 
-  <label>Full Name</label>
-  <input id="name" placeholder="John Doe" />
+    <div class="language-switcher">
+        <button onclick="setLang('ar')">العربية</button>
+        <button onclick="setLang('en')">English</button>
+        <button onclick="setLang('fr')">Français</button>
+        <button onclick="setLang('de')">Deutsch</button>
+        <button onclick="setLang('es')">Español</button>
+    </div>
 
-  <label>Job Title</label>
-  <input id="title" placeholder="Product Manager" />
+    <div class="section" id="bio">
+        <h2>نبذة تعريفية</h2>
+        <div class="info-box">
+            <p>شخصية قيادية بخبرة طويلة في تطوير كرة اليد في مملكة البحرين، قاد الاتحاد لتحقيق العديد من الإنجازات المحلية والدولية ورفع مستوى الاحترافية في اللعبة.</p>
+        </div>
+    </div>
 
-  <label>Phone Number</label>
-  <input id="phone" placeholder="0000 0000" />
+    <div class="section" id="experience">
+        <h2>الخبرات</h2>
+        <div class="info-box">
+            <ul>
+                <li>16 سنة رئيس الاتحاد البحريني لكرة اليد</li>
+                <li>الإشراف على المنتخبات الوطنية بكافة الفئات</li>
+                <li>تمثيل البحرين في الاجتماعات الدولية</li>
+                <li>تطوير الاستراتيجيات الفنية والإدارية للعبة</li>
+            </ul>
+        </div>
+    </div>
 
-  <label>Email</label>
-  <input id="email" placeholder="example@mail.com" />
+    <div class="section" id="achievements">
+        <h2>الإنجازات</h2>
+        <div class="info-box">
+            <ul>
+                <li>تأسيس أكاديمية الاتحاد لتطوير اللاعبين الشباب</li>
+                <li>تحقيق المنتخب الوطني ميداليات ذهبية عدة</li>
+                <li>تنظيم بطولات محلية ودولية ناجحة</li>
+            </ul>
+        </div>
+    </div>
 
-  <label>Company</label>
-  <input id="company" placeholder="Company Name" />
-
-  <label>Website</label>
-  <input id="website" placeholder="https://example.com" />
-
-  <button onclick="generateVCard()">Generate V-Card + QR</button>
-
-  <div id="output" class="result" style="display:none"></div>
+    <footer>
+        © 2025 – الملف التعريفي الرسمي
+    </footer>
 </div>
 
 <script>
-function generateVCard() {
-  const name = document.getElementById("name").value;
-  const title = document.getElementById("title").value;
-  const phone = document.getElementById("phone").value;
-  const email = document.getElementById("email").value;
-  const company = document.getElementById("company").value;
-  const website = document.getElementById("website").value;
+// نصوص متعددة اللغات افتراضية
+const texts = {
+    en: {
+        bio: "A seasoned leader in Bahraini handball, having led the federation to multiple local and international achievements while enhancing professionalism in the sport.",
+        experience: ["16 years as President of the Bahraini Handball Federation","Supervision of national teams of all levels","Representing Bahrain in international meetings","Developing technical and administrative strategies"],
+        achievements: ["Founded the Federation Academy for young player development","National team won several gold medals","Organized successful local and international tournaments"]
+    },
+    fr: {
+        bio: "Leader expérimenté du handball bahreïni, ayant conduit la fédération à plusieurs réalisations locales et internationales tout en améliorant le professionnalisme dans le sport.",
+        experience: ["16 ans président de la Fédération de Handball bahreïnie","Supervision des équipes nationales de tous niveaux","Représentation du Bahreïn lors de réunions internationales","Développement de stratégies techniques et administratives"],
+        achievements: ["Création de l'Académie de la Fédération pour le développement des jeunes joueurs","L'équipe nationale a remporté plusieurs médailles d'or","Organisation de tournois locaux et internationaux réussis"]
+    },
+    de: {
+        bio: "Erfahrener Leiter im bahrainischen Handball, der den Verband zu mehreren lokalen und internationalen Erfolgen geführt und die Professionalität im Sport gesteigert hat.",
+        experience: ["16 Jahre Präsident des Bahrainischen Handballverbandes","Überwachung der Nationalteams aller Ebenen","Vertretung Bahrains bei internationalen Treffen","Entwicklung technischer und administrativer Strategien"],
+        achievements: ["Gründung der Verbandsakademie zur Förderung junger Spieler","Nationalteam gewann mehrere Goldmedaillen","Organisation erfolgreicher lokaler und internationaler Turniere"]
+    },
+    es: {
+        bio: "Líder experimentado en balonmano de Baréin, que ha llevado a la federación a múltiples logros locales e internacionales mientras mejora el profesionalismo en el deporte.",
+        experience: ["16 años como presidente de la Federación de Balonmano de Baréin","Supervisión de equipos nacionales de todos los niveles","Representación de Baréin en reuniones internacionales","Desarrollo de estrategias técnicas y administrativas"],
+        achievements: ["Fundó la Academia de la Federación para el desarrollo de jóvenes jugadores","El equipo nacional ganó varias medallas de oro","Organizó torneos locales e internacionales exitosos"]
+    },
+    ar: {
+        bio: "شخصية قيادية بخبرة طويلة في تطوير كرة اليد في مملكة البحرين، قاد الاتحاد لتحقيق العديد من الإنجازات المحلية والدولية ورفع مستوى الاحترافية في اللعبة.",
+        experience: ["16 سنة رئيس الاتحاد البحريني لكرة اليد","الإشراف على المنتخبات الوطنية بكافة الفئات","تمثيل البحرين في الاجتماعات الدولية","تطوير الاستراتيجيات الفنية والإدارية للعبة"],
+        achievements: ["تأسيس أكاديمية الاتحاد لتطوير اللاعبين الشباب","تحقيق المنتخب الوطني ميداليات ذهبية عدة","تنظيم بطولات محلية ودولية ناجحة"]
+    }
+};
 
-  const vcard = `BEGIN:VCARD\nVERSION:3.0\nN:${name}\nTITLE:${title}\nTEL:${phone}\nEMAIL:${email}\nORG:${company}\nURL:${website}\nEND:VCARD`;
-
-  const encoded = encodeURIComponent(vcard);
-  const qrURL = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encoded}`;
-
-  document.getElementById("output").innerHTML = `
-    <div class='vcard-preview'>
-      <h3>${name}</h3>
-      <p>${title}</p>
-      <p>${company}</p>
-      <p>${phone}</p>
-      <p>${email}</p>
-      <p>${website}</p>
-
-      <div class='qr'>
-        <img src='${qrURL}' width='200' />
-      </div>
-
-      <br>
-      <a href="data:text/vcard;charset=utf-8,${encoded}" download="vcard.vcf" style="text-decoration:none">
-        <button>Download V-Card File</button>
-      </a>
-    </div>
-  `;
-
-  document.getElementById("output").style.display = "block";
+function setLang(lang){
+    document.querySelector("#bio .info-box p").textContent = texts[lang].bio;
+    let expList = document.querySelector("#experience .info-box ul");
+    let achList = document.querySelector("#achievements .info-box ul");
+    expList.innerHTML = "";
+    achList.innerHTML = "";
+    texts[lang].experience.forEach(item => {
+        let li = document.createElement("li");
+        li.textContent = item;
+        expList.appendChild(li);
+    });
+    texts[lang].achievements.forEach(item => {
+        let li = document.createElement("li");
+        li.textContent = item;
+        achList.appendChild(li);
+    });
 }
 </script>
-
 </body>
 </html>
