@@ -3,23 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مولّد الصفحة الشخصية</title>
+<title>مولّد الصفحة الشخصية متعدد اللغات</title>
 <style>
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css');
-body { font-family: 'Tahoma', sans-serif; background:#f9f9f9; margin:0; padding:20px; }
+body { font-family: 'Tahoma', sans-serif; background:#f9f9f9; margin:0; padding:20px; transition: all 0.3s;}
 h1,h2,h3 { margin:5px 0; }
 .container { max-width:900px; margin:auto; background:#fff; padding:20px 30px; border-radius:15px; box-shadow:0 4px 20px rgba(0,0,0,0.1); }
-form { display:flex; flex-direction:column; gap:10px; }
-input,textarea,button { padding:10px; border-radius:8px; border:1px solid #ccc; }
+form { display:flex; flex-direction:column; gap:10px; margin-bottom:30px;}
+input,textarea,button,select { padding:10px; border-radius:8px; border:1px solid #ccc; }
 button { background:#c8102e; color:#fff; font-weight:bold; border:none; cursor:pointer; }
 button:hover { background:#a50b24; }
 .preview { margin-top:20px; }
 iframe { width:100%; height:700px; border:1px solid #ccc; border-radius:12px; }
+.lang-btns { display:flex; gap:10px; margin-bottom:10px;}
+.lang-btns button { background:#eee; color:#333; font-weight:bold; border:1px solid #ccc; }
+.lang-btns button.active { background:#c8102e; color:white; }
 </style>
 </head>
 <body>
 <div class="container">
-<h1>مولّد الصفحة الشخصية</h1>
+<h1>مولّد الصفحة الشخصية متعدد اللغات</h1>
+
 <form id="profileForm">
 <input type="text" id="name" placeholder="اسم الرئيس" required>
 <textarea id="bio" placeholder="نبذة تعريفية" rows="3"></textarea>
@@ -35,6 +39,13 @@ iframe { width:100%; height:700px; border:1px solid #ccc; border-radius:12px; }
 
 <div class="preview">
 <h2>معاينة الصفحة</h2>
+<div class="lang-btns">
+<button onclick="changeLang('ar')">AR</button>
+<button onclick="changeLang('en')">EN</button>
+<button onclick="changeLang('fr')">FR</button>
+<button onclick="changeLang('es')">ES</button>
+<button onclick="changeLang('de')">DE</button>
+</div>
 <iframe id="previewFrame"></iframe>
 <button onclick="downloadPage()">تحميل HTML النهائي</button>
 </div>
@@ -42,6 +53,13 @@ iframe { width:100%; height:700px; border:1px solid #ccc; border-radius:12px; }
 
 <script>
 let lastHTML="";
+let translations = {
+  ar: {bio:"نبذة تعريفية افتراضية.", experience:["16 سنة رئيس الاتحاد البحريني لكرة اليد."], achievements:["تأسيس أكاديمية كرة اليد","تنظيم بطولات محلية ودولية"]},
+  en: {bio:"Default profile bio.", experience:["16 years president of Bahrain Handball Federation."], achievements:["Founded Handball Academy","Organized local and international tournaments"]},
+  fr: {bio:"Biographie par défaut.", experience:["16 ans président de la Fédération bahreïnie de handball."], achievements:["Fondation de l'académie de handball","Organisation de tournois locaux et internationaux"]},
+  es: {bio:"Biografía por defecto.", experience:["16 años presidente de la Federación de Balonmano de Baréin."], achievements:["Fundación de la academia de balonmano","Organización de torneos locales e internacionales"]},
+  de: {bio:"Standardbiografie.", experience:["16 Jahre Präsident des Bahrain Handballverbands."], achievements:["Gründung der Handballakademie","Organisation lokaler und internationaler Turniere"]}
+};
 
 function fileToBase64(file, callback){
     if(!file){callback(''); return;}
@@ -52,9 +70,6 @@ function fileToBase64(file, callback){
 
 function generatePage(){
     const name = document.getElementById('name').value || "اسم الرئيس";
-    const bio = document.getElementById('bio').value || "نبذة تعريفية افتراضية.";
-    const experience = document.getElementById('experience').value.split('\n').filter(x=>x);
-    const achievements = document.getElementById('achievements').value.split('\n').filter(x=>x);
     const email = document.getElementById('email').value || "example@email.com";
     const phone = document.getElementById('phone').value || "0000-0000";
 
@@ -65,14 +80,16 @@ function generatePage(){
     fileToBase64(profileFile, profileBase64=>{
     fileToBase64(logoFile, logoBase64=>{
     fileToBase64(cvFile, cvBase64=>{
-        const html=`<!DOCTYPE html>
+        let html = `
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${name}</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-body{font-family:'Tahoma',sans-serif;background:#f9f9f9;margin:0;padding:20px;}
+body{font-family:'Tahoma',sans-serif;background:#f9f9f9;margin:0;padding:20px; transition: all 0.3s;}
 header{background:#c8102e;color:white;padding:30px;text-align:center;}
 header img.profile-img{width:160px;height:160px;border-radius:50%;border:4px solid white;object-fit:cover;}
 header img.logo{width:80px;margin-top:15px;}
@@ -89,6 +106,9 @@ header h3{margin:0;font-weight:normal;font-size:18px;}
 .contact a{color:#c8102e;font-size:18px;text-decoration:none;transition:color 0.2s;}
 .contact a:hover{color:#a50b24;}
 footer{text-align:center;color:#777;margin-top:40px;font-size:14px;padding:20px 0;border-top:1px solid #ddd;}
+.lang-btns{display:flex;gap:10px;margin-bottom:10px;}
+.lang-btns button{background:#eee;color:#333;font-weight:bold;border:1px solid #ccc;}
+.lang-btns button.active{background:#c8102e;color:white;}
 </style>
 </head>
 <body>
@@ -99,16 +119,33 @@ footer{text-align:center;color:#777;margin-top:40px;font-size:14px;padding:20px 
 <img class="logo" src="${logoBase64}" alt="شعار الاتحاد">
 </header>
 <div class="container">
-<div class="section"><h2>نبذة تعريفية</h2><div class="info-box">${bio}</div></div>
-<div class="section"><h2>الخبرات</h2><div class="info-box"><ul>${experience.map(e=>'<li>'+e+'</li>').join('')}</ul></div></div>
-<div class="section"><h2>الإنجازات</h2><div class="info-box"><ul>${achievements.map(a=>'<li>'+a+'</li>').join('')}</ul></div></div>
+<div class="section"><h2>نبذة تعريفية</h2><div class="info-box" id="bioBox">${translations.ar.bio}</div></div>
+<div class="section"><h2>الخبرات</h2><div class="info-box"><ul id="expList">${translations.ar.experience.map(e=>`<li>${e}</li>`).join('')}</ul></div></div>
+<div class="section"><h2>الإنجازات</h2><div class="info-box"><ul id="achList">${translations.ar.achievements.map(a=>`<li>${a}</li>`).join('')}</ul></div></div>
 <div class="section cv-link"><a href="${cvBase64}" download="${name}_CV.pdf">تحميل ملف السيرة الذاتية (CV)</a></div>
 <div class="section contact">
 <a href="mailto:${email}"><i class="fas fa-envelope"></i> البريد الإلكتروني</a>
 <a href="tel:${phone}"><i class="fas fa-phone"></i> الهاتف</a>
 </div>
+<div class="lang-btns">
+<button onclick="setLang('ar')">AR</button>
+<button onclick="setLang('en')">EN</button>
+<button onclick="setLang('fr')">FR</button>
+<button onclick="setLang('es')">ES</button>
+<button onclick="setLang('de')">DE</button>
+</div>
 <footer>© 2025 – الملف التعريفي الرسمي للاتحاد البحريني لكرة اليد</footer>
 </div>
+<script>
+const translations = ${JSON.stringify(translations)};
+function setLang(lang){
+    const rtl = (lang==='ar');
+    document.body.dir = rtl ? 'rtl':'ltr';
+    document.getElementById('bioBox').textContent = translations[lang].bio;
+    document.getElementById('expList').innerHTML = translations[lang].experience.map(e=>`<li>${e}</li>`).join('');
+    document.getElementById('achList').innerHTML = translations[lang].achievements.map(a=>`<li>${a}</li>`).join('');
+}
+</script>
 </body>
 </html>`;
         lastHTML = html;
