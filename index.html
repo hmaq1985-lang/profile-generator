@@ -5,19 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مولّد الصفحة الشخصية</title>
 <style>
-body { font-family: 'Tahoma', sans-serif; background: #f9f9f9; margin: 0; padding: 20px; }
-.container { max-width: 900px; margin: auto; background: #fff; padding: 20px 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-input, textarea, button, select { padding: 10px; border-radius: 8px; border: 1px solid #ccc; }
-button { background: #c8102e; color: #fff; font-weight: bold; border: none; cursor: pointer; }
-button:hover { background: #a50b24; }
-.lang-btns { display: flex; gap: 10px; margin-top: 10px; }
-.lang-btns button { background: #eee; color: #333; font-weight: bold; border: 1px solid #ccc; padding: 8px; cursor: pointer;}
-.lang-btns button.active { background: #c8102e; color:white;}
+body { font-family: 'Tahoma', sans-serif; background:#f9f9f9; margin:0; padding:20px; }
+.container { max-width:900px; margin:auto; background:#fff; padding:20px 30px; border-radius:15px; box-shadow:0 4px 20px rgba(0,0,0,0.1); }
+form { display:flex; flex-direction:column; gap:10px; }
+input, textarea, button { padding:10px; border-radius:8px; border:1px solid #ccc; }
+button { background:#c8102e; color:#fff; font-weight:bold; border:none; cursor:pointer; }
+button:hover { background:#a50b24; }
 </style>
 </head>
 <body>
-
 <div class="container">
 <h1>مولّد الصفحة الشخصية متعدد اللغات</h1>
 
@@ -31,8 +27,7 @@ button:hover { background: #a50b24; }
 <label>رفع الصورة الشخصية</label><input type="file" id="profileImg" accept="image/*">
 <label>رفع شعار الاتحاد</label><input type="file" id="logoImg" accept="image/*">
 <label>رفع ملف CV</label><input type="file" id="cvFile" accept=".pdf">
-<button type="button" onclick="generatePage()">توليد الصفحة</button>
-<button type="button" onclick="downloadPage()">تحميل HTML النهائي</button>
+<button type="button" onclick="downloadPage()">تحميل الصفحة النهائية</button>
 </form>
 </div>
 
@@ -57,9 +52,12 @@ function fileToBase64(file){
     });
 }
 
-async function generatePage(){
+async function downloadPage(){
     try{
         const name = document.getElementById('name').value || "اسم الرئيس";
+        const bioInput = document.getElementById('bio').value || translations.ar.bio;
+        const expInput = document.getElementById('experience').value.split('\n').filter(l=>l.trim()!=='') || translations.ar.experience;
+        const achInput = document.getElementById('achievements').value.split('\n').filter(l=>l.trim()!=='') || translations.ar.achievements;
 
         const profileFile = document.getElementById('profileImg').files[0];
         const logoFile = document.getElementById('logoImg').files[0];
@@ -72,7 +70,9 @@ async function generatePage(){
         lastHTML = `
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head><meta charset="UTF-8"><title>${name}</title>
+<head>
+<meta charset="UTF-8">
+<title>${name}</title>
 <style>
 body { font-family: 'Tahoma', sans-serif; background:#f9f9f9; padding:20px; }
 header { text-align:center; background:#c8102e; color:white; padding:20px; border-radius:15px;}
@@ -94,13 +94,13 @@ ul { list-style-type: disc; padding-left:20px; }
 
 <div>
 <h2>نبذة تعريفية</h2>
-<p id="bioBox">${translations.ar.bio}</p>
+<p id="bioBox">${bioInput}</p>
 
 <h2>الخبرات</h2>
-<ul id="expList">${translations.ar.experience.map(e=>`<li>${e}</li>`).join('')}</ul>
+<ul id="expList">${expInput.map(e=>`<li>${e}</li>`).join('')}</ul>
 
 <h2>الإنجازات</h2>
-<ul id="achList">${translations.ar.achievements.map(a=>`<li>${a}</li>`).join('')}</ul>
+<ul id="achList">${achInput.map(a=>`<li>${a}</li>`).join('')}</ul>
 
 <h2>السيرة الذاتية</h2>
 <a href="${cvBase64}" download="${name}_CV.pdf">تحميل ملف السيرة الذاتية (CV)</a>
@@ -126,23 +126,19 @@ function setLang(lang){
 </body>
 </html>
         `;
-        const w = window.open();
-        w.document.write(lastHTML);
-        w.document.close();
-    } catch(err){ alert(err); }
-}
 
-function downloadPage(){
-    if(!lastHTML){ alert("يجب توليد الصفحة أولاً"); return; }
-    const blob = new Blob([lastHTML], {type:"text/html"});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = "profile_page.html";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+        // تحميل HTML النهائي مباشرة
+        const blob = new Blob([lastHTML], {type:"text/html"});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = "profile_page.html";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+    } catch(err){ alert(err); }
 }
 </script>
 
