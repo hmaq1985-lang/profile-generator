@@ -72,25 +72,40 @@ async function generatePage(){
         lastHTML = `
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head><meta charset="UTF-8"><title>${name}</title></head>
-<body style="font-family:sans-serif;padding:20px;background:#f9f9f9;">
-<header style="text-align:center;background:#c8102e;color:white;padding:20px;border-radius:15px;">
-<img src="${profileBase64}" alt="الصورة الشخصية" style="width:150px;border-radius:50%;border:3px solid white;"><br>
+<head><meta charset="UTF-8"><title>${name}</title>
+<style>
+body { font-family: 'Tahoma', sans-serif; background:#f9f9f9; padding:20px; }
+header { text-align:center; background:#c8102e; color:white; padding:20px; border-radius:15px;}
+header img.profile { width:150px; border-radius:50%; border:3px solid white; }
+header img.logo { width:80px; margin-top:10px; }
+h1,h2,h3 { margin:5px 0; }
+ul { list-style-type: disc; padding-left:20px; }
+.lang-btns { display:flex; gap:10px; justify-content:center; margin-top:20px; }
+.lang-btns button { padding:5px 10px; cursor:pointer; }
+</style>
+</head>
+<body>
+<header>
+<img src="${profileBase64}" class="profile">
 <h1>${name}</h1>
 <h3>رئيس الاتحاد البحريني لكرة اليد</h3>
-<img src="${logoBase64}" alt="شعار الاتحاد" style="width:80px;margin-top:10px;">
+<img src="${logoBase64}" class="logo">
 </header>
-<div style="margin-top:20px;">
+
+<div>
 <h2>نبذة تعريفية</h2>
 <p id="bioBox">${translations.ar.bio}</p>
+
 <h2>الخبرات</h2>
 <ul id="expList">${translations.ar.experience.map(e=>`<li>${e}</li>`).join('')}</ul>
+
 <h2>الإنجازات</h2>
 <ul id="achList">${translations.ar.achievements.map(a=>`<li>${a}</li>`).join('')}</ul>
+
 <h2>السيرة الذاتية</h2>
 <a href="${cvBase64}" download="${name}_CV.pdf">تحميل ملف السيرة الذاتية (CV)</a>
 
-<div class="lang-btns" style="margin-top:20px;">
+<div class="lang-btns">
 <button onclick="setLang('ar')">AR</button>
 <button onclick="setLang('en')">EN</button>
 <button onclick="setLang('fr')">FR</button>
@@ -107,10 +122,10 @@ function setLang(lang){
     document.getElementById('achList').innerHTML = translationsData[lang].achievements.map(a=>\`<li>\${a}</li>\`).join('');
 }
 </script>
+
 </body>
 </html>
         `;
-        // فتح الصفحة في نافذة جديدة بدل iframe
         const w = window.open();
         w.document.write(lastHTML);
         w.document.close();
